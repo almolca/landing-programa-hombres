@@ -1,14 +1,17 @@
 :root {
-  --ink: #151922;
-  --muted: #59606c;
-  --cream: #f7f0e8;
-  --paper: #fffaf4;
-  --line: #eadbd2;
-  --accent: #ed315d;
-  --accent-dark: #c91f47;
-  --deep: #071f24;
-  --deep-2: #0d3338;
-  --shadow: 0 22px 70px rgba(43, 24, 20, 0.14);
+  --ink: #1b2228;
+  --muted: #5e6870;
+  --cream: #f1e8dc;
+  --paper: #fffaf3;
+  --line: #d8cbbe;
+  --accent: #7a1e2a;
+  --accent-dark: #5a121d;
+  --accent-strong: #a6404a;
+  --tech: #2f8ea3;
+  --deep: #08141c;
+  --deep-2: #102b33;
+  --graphite: #1b2228;
+  --shadow: 0 18px 48px rgba(8, 20, 28, 0.1);
 }
 
 * {
@@ -24,8 +27,8 @@ body {
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--ink);
   background:
-    radial-gradient(circle at 14% 8%, rgba(237, 49, 93, 0.13), transparent 28rem),
-    linear-gradient(180deg, #fff8f0 0%, #fbf4ec 45%, #fffaf4 100%);
+    radial-gradient(circle at 14% 8%, rgba(8, 20, 28, 0.08), transparent 28rem),
+    linear-gradient(180deg, #f1e8dc 0%, #f6efe7 45%, #fffaf3 100%);
 }
 
 body::before {
@@ -35,8 +38,8 @@ body::before {
   pointer-events: none;
   opacity: 0.18;
   background-image:
-    linear-gradient(120deg, transparent 0 48%, rgba(95, 63, 55, 0.18) 50%, transparent 52%),
-    linear-gradient(35deg, transparent 0 47%, rgba(237, 49, 93, 0.08) 50%, transparent 53%);
+    linear-gradient(120deg, transparent 0 48%, rgba(27, 34, 40, 0.1) 50%, transparent 52%),
+    linear-gradient(35deg, transparent 0 47%, rgba(122, 30, 42, 0.05) 50%, transparent 53%);
   background-size: 380px 380px, 520px 520px;
   z-index: -1;
 }
@@ -51,8 +54,8 @@ a {
   top: 0;
   z-index: 10;
   background: linear-gradient(90deg, var(--deep), var(--deep-2));
-  color: #fff;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18);
+  color: #fffaf3;
+  box-shadow: 0 12px 34px rgba(8, 20, 28, 0.22);
 }
 
 .topbar__inner {
@@ -77,8 +80,8 @@ a {
   width: 12px;
   height: 12px;
   border-radius: 999px;
-  background: #fff;
-  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.12);
+  background: var(--accent);
+  box-shadow: 0 0 0 5px rgba(122, 30, 42, 0.14);
 }
 
 .timer {
@@ -93,7 +96,7 @@ a {
   place-items: center;
   padding: 4px 8px;
   border-radius: 8px;
-  background: #fff;
+  background: var(--paper);
   color: var(--deep);
   font-size: 0.68rem;
   font-weight: 800;
@@ -111,6 +114,7 @@ a {
   border-radius: 8px;
   background: var(--accent);
   color: #fff;
+  box-shadow: 0 10px 24px rgba(8, 20, 28, 0.14);
   font-weight: 900;
   font-size: 0.78rem;
   text-transform: uppercase;
@@ -186,9 +190,9 @@ h1 span {
 input {
   width: 100%;
   height: 42px;
-  border: 1px solid #dfd1c7;
+  border: 1px solid var(--line);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 250, 243, 0.86);
   color: var(--ink);
   padding: 0 14px;
   font: inherit;
@@ -200,13 +204,13 @@ input {
 input:focus {
   border-color: var(--accent);
   background: #fff;
-  box-shadow: 0 0 0 4px rgba(237, 49, 93, 0.13);
+  box-shadow: 0 0 0 4px rgba(122, 30, 42, 0.11);
 }
 
 input.is-error {
-  border-color: rgba(237, 49, 93, 0.72);
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 0 4px rgba(237, 49, 93, 0.1);
+  border-color: rgba(122, 30, 42, 0.62);
+  background: rgba(255, 250, 243, 0.94);
+  box-shadow: 0 0 0 4px rgba(122, 30, 42, 0.09);
 }
 
 .check {
@@ -231,27 +235,28 @@ input.is-error {
 }
 
 .check.is-error input {
-  box-shadow: 0 0 0 4px rgba(237, 49, 93, 0.12);
+  box-shadow: 0 0 0 4px rgba(122, 30, 42, 0.1);
 }
 
 button {
   height: 46px;
   border: 0;
   border-radius: 8px;
-  background: linear-gradient(180deg, #ff456d, var(--accent));
+  background: var(--accent);
   color: #fff;
   font: inherit;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0;
   cursor: pointer;
-  box-shadow: 0 14px 28px rgba(237, 49, 93, 0.25);
+  box-shadow: 0 12px 28px rgba(8, 20, 28, 0.16);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 18px 38px rgba(237, 49, 93, 0.32);
+  background: var(--accent-dark);
+  box-shadow: 0 16px 34px rgba(8, 20, 28, 0.2);
 }
 
 .form-message {
@@ -263,7 +268,7 @@ button:hover {
 }
 
 .form-message.is-success {
-  color: #0c7d59;
+  color: #247068;
 }
 
 .hero__visual {
@@ -275,11 +280,11 @@ button:hover {
   position: relative;
   min-height: clamp(340px, 52svh, 440px);
   overflow: hidden;
-  border: 1px solid rgba(234, 219, 210, 0.9);
+  border: 1px solid rgba(216, 203, 190, 0.9);
   border-radius: 8px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.45), transparent 38%),
-    linear-gradient(150deg, #f7e6db, #fffaf4 48%, #ead1c6);
+    linear-gradient(180deg, rgba(255, 250, 243, 0.45), transparent 38%),
+    linear-gradient(150deg, #e8ddcf, #fffaf3 48%, #c7d4d2);
   box-shadow: var(--shadow);
 }
 
@@ -289,7 +294,7 @@ button:hover {
   left: 18%;
   width: 132px;
   height: 180px;
-  background: radial-gradient(ellipse at top, rgba(255, 255, 255, 0.9), transparent 68%);
+  background: radial-gradient(ellipse at top, rgba(255, 250, 243, 0.82), transparent 68%);
 }
 
 .mentor-portrait {
@@ -301,10 +306,10 @@ button:hover {
   background:
     radial-gradient(circle at 48% 18%, #8b5147 0 8%, transparent 9%),
     radial-gradient(circle at 46% 19%, #f1bfa7 0 12%, transparent 13%),
-    linear-gradient(142deg, transparent 0 35%, #e8ded3 36% 62%, transparent 63%),
-    linear-gradient(28deg, transparent 0 43%, #1d262d 44% 61%, transparent 62%),
-    radial-gradient(ellipse at 50% 84%, #d7c9bc 0 42%, transparent 43%);
-  filter: drop-shadow(-14px 16px 20px rgba(43, 24, 20, 0.16));
+    linear-gradient(142deg, transparent 0 35%, #d8d2ca 36% 62%, transparent 63%),
+    linear-gradient(28deg, transparent 0 43%, #1b2228 44% 61%, transparent 62%),
+    radial-gradient(ellipse at 50% 84%, #c8beb2 0 42%, transparent 43%);
+  filter: drop-shadow(-14px 16px 20px rgba(8, 20, 28, 0.14));
 }
 
 .lesson-chip {
@@ -314,8 +319,8 @@ button:hover {
   width: min(240px, calc(100% - 40px));
   padding: 14px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.86);
-  box-shadow: 0 18px 50px rgba(43, 24, 20, 0.12);
+  background: rgba(255, 250, 243, 0.9);
+  box-shadow: 0 16px 42px rgba(8, 20, 28, 0.1);
   font-weight: 900;
 }
 
@@ -335,8 +340,8 @@ button:hover {
   height: 108px;
   padding: 9px;
   border-radius: 8px;
-  background: #151922;
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
+  background: var(--graphite);
+  box-shadow: 0 18px 42px rgba(8, 20, 28, 0.18);
 }
 
 .device-preview__screen {
@@ -347,15 +352,15 @@ button:hover {
   padding: 14px;
   border-radius: 6px;
   background:
-    linear-gradient(130deg, rgba(237, 49, 93, 0.7), transparent 48%),
-    linear-gradient(180deg, #ffece8, #fffaf4);
+    linear-gradient(130deg, rgba(47, 142, 163, 0.28), transparent 48%),
+    linear-gradient(180deg, #d9d0c6, #fffaf3);
 }
 
 .device-preview__screen span {
   width: 42px;
   height: 5px;
   border-radius: 999px;
-  background: var(--accent);
+  background: var(--tech);
 }
 
 .device-preview__screen strong {
@@ -377,7 +382,7 @@ button:hover {
   max-width: none;
   padding-left: max(16px, calc((100vw - 1180px) / 2));
   padding-right: max(16px, calc((100vw - 1180px) / 2));
-  background: rgba(255, 250, 244, 0.72);
+  background: rgba(255, 250, 243, 0.72);
 }
 
 .section-heading {
@@ -408,8 +413,8 @@ button:hover {
   padding: 34px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.72);
-  box-shadow: 0 16px 44px rgba(43, 24, 20, 0.08);
+  background: rgba(255, 250, 243, 0.82);
+  box-shadow: 0 14px 34px rgba(8, 20, 28, 0.07);
 }
 
 .number-card span {
@@ -454,7 +459,7 @@ button:hover {
 }
 
 .benefit-card--outlined {
-  border: 2px solid rgba(237, 49, 93, 0.5);
+  border: 2px solid rgba(122, 30, 42, 0.38);
 }
 
 .icon {
@@ -481,7 +486,7 @@ button:hover {
   height: 40px;
   margin-bottom: 28px;
   border-radius: 8px;
-  background: rgba(237, 49, 93, 0.1);
+  background: rgba(122, 30, 42, 0.08);
   color: var(--accent);
   font-weight: 900;
   font-size: 1.4rem;
@@ -491,9 +496,9 @@ button:hover {
   width: 100%;
   padding: clamp(72px, 10vw, 122px) max(16px, calc((100vw - 1180px) / 2));
   background:
-    radial-gradient(circle at 18% 28%, rgba(237, 49, 93, 0.18), transparent 18rem),
-    linear-gradient(135deg, #07282b 0%, #0f4c45 54%, #082226 100%);
-  color: #fff;
+    radial-gradient(circle at 18% 28%, rgba(122, 30, 42, 0.12), transparent 18rem),
+    linear-gradient(135deg, #08141c 0%, #102b33 54%, #08141c 100%);
+  color: #fffaf3;
   overflow: hidden;
 }
 
@@ -509,7 +514,7 @@ button:hover {
 }
 
 .mentor-section .eyebrow {
-  color: #ff6b8b;
+  color: #d5a6ac;
 }
 
 .mentor-section__heading h2 {
@@ -548,7 +553,7 @@ button:hover {
     linear-gradient(180deg, #fff6ed 0%, #f0d9cc 100%);
   box-shadow:
     0 28px 80px rgba(0, 0, 0, 0.28),
-    inset 0 0 0 12px rgba(255, 255, 255, 0.55);
+    inset 0 0 0 12px rgba(255, 250, 243, 0.55);
 }
 
 .mentor-photo::before {
@@ -560,10 +565,10 @@ button:hover {
   height: 18%;
   border-radius: 8px;
   background:
-    linear-gradient(#ffffff, #ffffff) 0 0 / 100% 22% no-repeat,
-    linear-gradient(#f4d6ca, #f4d6ca) 0 38% / 100% 22% no-repeat,
-    linear-gradient(#ffffff, #ffffff) 0 76% / 100% 22% no-repeat;
-  box-shadow: 0 12px 26px rgba(28, 16, 14, 0.16);
+    linear-gradient(#fffaf3, #fffaf3) 0 0 / 100% 22% no-repeat,
+    linear-gradient(#d8cbbe, #d8cbbe) 0 38% / 100% 22% no-repeat,
+    linear-gradient(#fffaf3, #fffaf3) 0 76% / 100% 22% no-repeat;
+  box-shadow: 0 12px 24px rgba(8, 20, 28, 0.14);
 }
 
 .mentor-photo::after {
@@ -574,7 +579,7 @@ button:hover {
   bottom: 26%;
   height: 7%;
   border-radius: 999px 999px 12px 12px;
-  background: #e7d4c6;
+  background: #c8beb2;
 }
 
 .mentor-badge {
@@ -583,11 +588,11 @@ button:hover {
   bottom: 42px;
   width: min(190px, 44vw);
   padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.26);
+  border: 1px solid rgba(255, 250, 243, 0.18);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 250, 243, 0.09);
   backdrop-filter: blur(16px);
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 18px 38px rgba(8, 20, 28, 0.18);
 }
 
 .mentor-badge strong {
@@ -599,7 +604,7 @@ button:hover {
 }
 
 .mentor-badge span {
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 250, 243, 0.78);
   font-size: 0.82rem;
   font-weight: 800;
   line-height: 1.25;
@@ -611,7 +616,7 @@ button:hover {
 
 .mentor-profile__copy p {
   margin-bottom: 22px;
-  color: rgba(255, 255, 255, 0.76);
+  color: rgba(255, 250, 243, 0.76);
   font-size: clamp(1rem, 1.4vw, 1.08rem);
   line-height: 1.7;
   font-weight: 600;
@@ -635,10 +640,10 @@ button:hover {
   align-content: center;
   gap: 6px;
   padding: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 250, 243, 0.14);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.74);
+  background: rgba(255, 250, 243, 0.07);
+  color: rgba(255, 250, 243, 0.74);
   font-size: 0.78rem;
   font-weight: 800;
   line-height: 1.25;
@@ -658,9 +663,9 @@ button:hover {
   min-height: 52px;
   padding: 0 24px;
   border-radius: 8px;
-  background: linear-gradient(180deg, #ff456d, var(--accent));
+  background: var(--accent);
   color: #fff;
-  box-shadow: 0 14px 32px rgba(237, 49, 93, 0.28);
+  box-shadow: 0 12px 28px rgba(8, 20, 28, 0.16);
   font-size: 0.82rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -669,7 +674,8 @@ button:hover {
 
 .mentor-cta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 18px 40px rgba(237, 49, 93, 0.36);
+  background: var(--accent-dark);
+  box-shadow: 0 16px 34px rgba(8, 20, 28, 0.2);
 }
 
 .reveal-on-scroll {
@@ -708,7 +714,7 @@ button:hover {
 
 .lead-form--compact button {
   height: 56px;
-  box-shadow: 0 20px 42px rgba(237, 49, 93, 0.3);
+  box-shadow: 0 14px 32px rgba(8, 20, 28, 0.16);
 }
 
 .final-cta__mockup {
@@ -724,7 +730,7 @@ button:hover {
   max-width: 100%;
   padding: 10px 10px 18px;
   border-radius: 10px 10px 6px 6px;
-  background: #1b2129;
+  background: var(--graphite);
   box-shadow: var(--shadow);
 }
 
@@ -736,7 +742,7 @@ button:hover {
   bottom: 0;
   height: 12px;
   border-radius: 0 0 12px 12px;
-  background: #343b46;
+  background: #2a333a;
 }
 
 .laptop__screen {
@@ -747,8 +753,8 @@ button:hover {
   padding: 22px;
   border-radius: 6px;
   background:
-    linear-gradient(130deg, rgba(237, 49, 93, 0.74), transparent 44%),
-    linear-gradient(180deg, #ffe4da, #fffaf4);
+    linear-gradient(130deg, rgba(47, 142, 163, 0.3), transparent 44%),
+    linear-gradient(180deg, #d8cbbe, #fffaf3);
 }
 
 .laptop__screen strong {
@@ -761,7 +767,7 @@ button:hover {
   width: max-content;
   padding: 7px 10px;
   border-radius: 6px;
-  background: #fff;
+  background: var(--paper);
   color: var(--accent);
   font-weight: 900;
   font-size: 0.72rem;
@@ -776,8 +782,8 @@ button:hover {
   height: 146px;
   padding: 8px;
   border-radius: 16px;
-  background: #171c22;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+  background: var(--graphite);
+  box-shadow: 0 18px 36px rgba(8, 20, 28, 0.16);
 }
 
 .phone span {
@@ -785,8 +791,8 @@ button:hover {
   height: 100%;
   border-radius: 11px;
   background:
-    radial-gradient(circle at 50% 32%, #f2bda8 0 16%, transparent 17%),
-    linear-gradient(180deg, #f8e6da, #fffaf4);
+    radial-gradient(circle at 50% 32%, #c8b8a7 0 16%, transparent 17%),
+    linear-gradient(180deg, #e8ddcf, #fffaf3);
 }
 
 @media (max-width: 980px) {
