@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Curso Online Premium | Método Claridad Digital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar" aria-label="Reserva del curso">
+      <div class="topbar__inner">
+        <div class="topbar__note">
+          <span class="status-dot" aria-hidden="true"></span>
+          Clase online en directo · Jueves 28 de mayo · 19:00
+        </div>
+        <div class="timer" aria-label="Cuenta atrás">
+          <span><strong id="days">00</strong><small>días</small></span>
+          <span><strong id="hours">00</strong><small>h</small></span>
+          <span><strong id="minutes">00</strong><small>min</small></span>
+        </div>
+        <a class="topbar__button" href="#registro">Reservar plaza</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero section-shell" id="inicio">
+        <div class="hero__content">
+          <p class="eyebrow">Masterclass gratuita · 100% online</p>
+          <h1>
+            Convierte tu conocimiento en un curso que la gente quiera comprar
+            <span>sin sentirte perdido con la tecnología.</span>
+          </h1>
+          <p class="hero__lead">
+            Aprende la estructura, el mensaje y el sistema de venta para crear
+            una oferta educativa clara, elegante y rentable desde tu propia experiencia.
+          </p>
+
+          <form class="lead-form" id="heroForm" novalidate>
+            <label>
+              <span>Nombre</span>
+              <input type="text" name="name" placeholder="Escribe tu nombre" required />
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" placeholder="tu@email.com" required />
+            </label>
+            <label>
+              <span>WhatsApp</span>
+              <input type="tel" name="phone" placeholder="+34 600 000 000" required />
+            </label>
+            <label class="check">
+              <input type="checkbox" name="privacy" required />
+              <span>Acepto recibir información de la clase y la política de privacidad.</span>
+            </label>
+            <button type="submit">Quiero mi acceso gratuito</button>
+            <p class="form-message" id="formMessage" role="status"></p>
+          </form>
+        </div>
+
+        <aside class="hero__visual" aria-label="Vista previa del curso">
+          <div class="portrait-card">
+            <div class="portrait-card__light"></div>
+            <div class="mentor-portrait" role="img" aria-label="Mentora del curso"></div>
+            <div class="lesson-chip">
+              <span>Clase 01</span>
+              Oferta premium lista
+            </div>
+          </div>
+          <div class="device-preview">
+            <div class="device-preview__screen">
+              <span></span>
+              <strong>Método Claridad Digital</strong>
+              <small>Plan de 90 minutos</small>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section section--cream">
+        <div class="section-heading">
+          <p class="eyebrow">Lo que construirás</p>
+          <h2>Una base de venta clara antes de grabar una sola lección</h2>
+        </div>
+        <div class="steps-grid">
+          <article class="number-card">
+            <span>01</span>
+            <h3>Define una promesa específica</h3>
+            <p>
+              Convierte tu experiencia en un resultado entendible, deseable y
+              fácil de explicar en una conversación.
+            </p>
+          </article>
+          <article class="number-card">
+            <span>02</span>
+            <h3>Ordena tu método</h3>
+            <p>
+              Diseña una ruta simple para que tu alumno avance sin abrumarse ni
+              abandonar a mitad del proceso.
+            </p>
+          </article>
+          <article class="number-card">
+            <span>03</span>
+            <h3>Presenta tu oferta</h3>
+            <p>
+              Crea una página y un mensaje comercial sobrios, premium y centrados
+              en decisión, no en ruido.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Recibirás al registrarte</p>
+          <h2>Todo lo necesario para llegar a la clase preparado</h2>
+        </div>
+        <div class="benefit-grid">
+          <article class="benefit-card">
+            <div class="icon">W</div>
+            <h3>Comunidad privada</h3>
+            <p>Acceso al grupo de WhatsApp con recordatorios, enlaces y materiales previos.</p>
+          </article>
+          <article class="benefit-card benefit-card--outlined">
+            <div class="icon">M</div>
+            <h3>Masterclass en directo</h3>
+            <p>Sesión práctica para construir la estructura de tu curso y resolver bloqueos comunes.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section section--cream">
+        <div class="section-heading">
+          <p class="eyebrow">Para quién es</p>
+          <h2>Creadores, consultores y profesionales que quieren vender con más criterio</h2>
+        </div>
+        <div class="audience-grid">
+          <article>
+            <span>?</span>
+            <p>Tienes una habilidad valiosa, pero todavía no sabes convertirla en un producto digital.</p>
+          </article>
+          <article>
+            <span>↗</span>
+            <p>Has probado a publicar contenido, pero no tienes una oferta clara que sostenga la venta.</p>
+          </article>
+          <article>
+            <span>◇</span>
+            <p>Quieres una estética premium sin perder claridad, confianza ni cercanía.</p>
+          </article>
+          <article>
+            <span>+</span>
+            <p>Necesitas una estructura sencilla para lanzar sin depender de herramientas complejas.</p>
+          </article>
+          <article>
+            <span>•</span>
+            <p>Ya das servicios uno a uno y quieres empaquetar tu conocimiento de forma escalable.</p>
+          </article>
+          <article>
+            <span>✓</span>
+            <p>Quieres vender con una página directa, formularios simples y una experiencia cuidada.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="mentor-section reveal-on-scroll" aria-label="Quién guía la masterclass">
+        <div class="mentor-section__inner">
+          <div class="mentor-section__heading">
+            <p class="eyebrow">Quién te acompaña</p>
+            <h2>Una guía estratégica para transformar tu experiencia en una oferta clara</h2>
+          </div>
+
+          <div class="mentor-profile">
+            <div class="mentor-profile__visual">
+              <div class="mentor-photo" role="img" aria-label="Mentora del curso online"></div>
+              <div class="mentor-badge">
+                <strong>+7 años</strong>
+                <span>diseñando programas digitales</span>
+              </div>
+            </div>
+
+            <div class="mentor-profile__copy">
+              <p>
+                Hola, soy <strong>Valeria Solís</strong>. Ayudo a profesionales con conocimiento
+                valioso a convertirlo en cursos online bien estructurados, fáciles de comunicar y
+                preparados para vender sin depender de improvisaciones.
+              </p>
+              <p>
+                Mi trabajo une <strong>estrategia de oferta</strong>, diseño de experiencia de
+                aprendizaje y comunicación comercial. La meta es que tu alumno entienda rápido por
+                qué tu curso importa y qué cambio concreto puede esperar.
+              </p>
+              <p>
+                En esta clase te mostraré cómo pasar de ideas dispersas a una ruta de venta sobria,
+                premium y accionable, con una estructura que puedas adaptar a tu propio sector.
+              </p>
+
+              <div class="mentor-stats" aria-label="Resultados destacados">
+                <span><strong>120+</strong> ofertas revisadas</span>
+                <span><strong>34</strong> sectores distintos</span>
+                <span><strong>90 min</strong> de clase práctica</span>
+              </div>
+
+              <a class="mentor-cta" href="#registro">Quiero reservar mi plaza</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="final-cta section-shell" id="registro">
+        <div>
+          <p class="eyebrow">Asiste desde cualquier dispositivo</p>
+          <h2>Reserva tu plaza y recibe el acceso en tu email</h2>
+        </div>
+        <form class="lead-form lead-form--compact" id="footerForm" novalidate>
+          <input type="text" name="name" placeholder="Escribe tu nombre" required />
+          <input type="email" name="email" placeholder="tu@email.com" required />
+          <label class="check">
+            <input type="checkbox" name="privacy" required />
+            <span>Acepto la política de privacidad.</span>
+          </label>
+          <button type="submit">Registrarme ahora</button>
+          <p class="form-message" id="footerMessage" role="status"></p>
+        </form>
+        <div class="final-cta__mockup" aria-hidden="true">
+          <div class="laptop">
+            <div class="laptop__screen">
+              <strong>Curso Online Premium</strong>
+              <span>En directo</span>
+            </div>
+          </div>
+          <div class="phone">
+            <span></span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
