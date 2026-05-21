@@ -20,18 +20,73 @@ function updateTimer() {
 }
 
 function bindForm(form, message) {
+  const fields = {
+    name: form.querySelector('[name="name"]'),
+    email: form.querySelector('[name="email"]'),
+    privacy: form.querySelector('[name="privacy"]'),
+  };
+  const privacyLabel = fields.privacy.closest(".check");
+
+  function setFieldError(field, hasError) {
+    field.classList.toggle("is-error", hasError);
+    field.setAttribute("aria-invalid", String(hasError));
+  }
+
+  function setPrivacyError(hasError) {
+    privacyLabel.classList.toggle("is-error", hasError);
+    fields.privacy.setAttribute("aria-invalid", String(hasError));
+  }
+
+  function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+  }
+
+  function clearMessage() {
+    message.textContent = "";
+    message.classList.remove("is-success");
+  }
+
+  fields.name.addEventListener("input", () => {
+    setFieldError(fields.name, !fields.name.value.trim());
+    clearMessage();
+  });
+
+  fields.email.addEventListener("input", () => {
+    const emailValue = fields.email.value.trim();
+    setFieldError(fields.email, Boolean(emailValue) && !isValidEmail(emailValue));
+    clearMessage();
+  });
+
+  fields.privacy.addEventListener("change", () => {
+    setPrivacyError(!fields.privacy.checked);
+    clearMessage();
+  });
+
   form.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const isValid = form.checkValidity();
+    const nameIsMissing = !fields.name.value.trim();
+    const emailValue = fields.email.value.trim();
+    const emailIsMissing = !emailValue;
+    const emailIsInvalid = Boolean(emailValue) && !isValidEmail(emailValue);
+    const privacyIsMissing = !fields.privacy.checked;
+    const isValid = !nameIsMissing && !emailIsMissing && !emailIsInvalid && !privacyIsMissing;
+
     message.classList.remove("is-success");
 
     if (!isValid) {
-      message.textContent = "Completa todos los campos para reservar tu plaza.";
-      form.reportValidity();
+      setFieldError(fields.name, nameIsMissing);
+      setFieldError(fields.email, emailIsMissing || emailIsInvalid);
+      setPrivacyError(privacyIsMissing);
+      message.textContent = emailIsInvalid
+        ? "Revisa el formato del email antes de continuar."
+        : "Completa nombre, email y acepta la política de privacidad.";
       return;
     }
 
+    setFieldError(fields.name, false);
+    setFieldError(fields.email, false);
+    setPrivacyError(false);
     message.textContent = "Plaza reservada. Revisa tu email para el acceso.";
     message.classList.add("is-success");
     form.reset();

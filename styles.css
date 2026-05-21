@@ -124,19 +124,19 @@ a {
 }
 
 .hero {
-  min-height: calc(100vh - 64px);
+  min-height: calc(100svh - 64px);
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.8fr);
-  gap: clamp(32px, 6vw, 86px);
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.68fr);
+  gap: clamp(24px, 4.8vw, 64px);
   align-items: center;
-  padding: clamp(52px, 8vw, 96px) 0;
+  padding: clamp(24px, 4.2vw, 52px) 0;
 }
 
 .eyebrow {
-  margin: 0 0 14px;
+  margin: 0 0 10px;
   color: var(--accent);
   font-weight: 900;
-  font-size: 0.82rem;
+  font-size: 0.76rem;
   text-transform: uppercase;
   letter-spacing: 0;
 }
@@ -149,10 +149,10 @@ p {
 }
 
 h1 {
-  max-width: 780px;
-  margin-bottom: 22px;
-  font-size: clamp(2.35rem, 5.8vw, 5.8rem);
-  line-height: 0.94;
+  max-width: 720px;
+  margin-bottom: 14px;
+  font-size: clamp(2.1rem, 4.7vw, 4.45rem);
+  line-height: 0.96;
   letter-spacing: 0;
   font-weight: 900;
 }
@@ -162,18 +162,18 @@ h1 span {
 }
 
 .hero__lead {
-  max-width: 720px;
-  margin-bottom: 24px;
+  max-width: 660px;
+  margin-bottom: 16px;
   color: var(--muted);
-  font-size: clamp(1rem, 1.5vw, 1.18rem);
-  line-height: 1.55;
+  font-size: clamp(0.92rem, 1.2vw, 1.06rem);
+  line-height: 1.42;
   font-weight: 600;
 }
 
 .lead-form {
-  width: min(620px, 100%);
+  width: min(560px, 100%);
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 
 .lead-form label:not(.check) span {
@@ -185,12 +185,12 @@ h1 span {
 
 input {
   width: 100%;
-  height: 48px;
+  height: 42px;
   border: 1px solid #dfd1c7;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.78);
   color: var(--ink);
-  padding: 0 16px;
+  padding: 0 14px;
   font: inherit;
   font-weight: 600;
   outline: none;
@@ -203,25 +203,39 @@ input:focus {
   box-shadow: 0 0 0 4px rgba(237, 49, 93, 0.13);
 }
 
+input.is-error {
+  border-color: rgba(237, 49, 93, 0.72);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 4px rgba(237, 49, 93, 0.1);
+}
+
 .check {
   display: flex;
   align-items: flex-start;
-  gap: 9px;
+  gap: 8px;
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  line-height: 1.35;
+  line-height: 1.28;
 }
 
 .check input {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   margin-top: 1px;
   accent-color: var(--accent);
 }
 
+.check.is-error {
+  color: var(--accent-dark);
+}
+
+.check.is-error input {
+  box-shadow: 0 0 0 4px rgba(237, 49, 93, 0.12);
+}
+
 button {
-  height: 52px;
+  height: 46px;
   border: 0;
   border-radius: 8px;
   background: linear-gradient(180deg, #ff456d, var(--accent));
@@ -241,10 +255,10 @@ button:hover {
 }
 
 .form-message {
-  min-height: 20px;
+  min-height: 16px;
   margin: 0;
   color: var(--accent-dark);
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 800;
 }
 
@@ -254,12 +268,12 @@ button:hover {
 
 .hero__visual {
   position: relative;
-  min-height: 620px;
+  min-height: clamp(360px, 58svh, 480px);
 }
 
 .portrait-card {
   position: relative;
-  min-height: 570px;
+  min-height: clamp(340px, 52svh, 440px);
   overflow: hidden;
   border: 1px solid rgba(234, 219, 210, 0.9);
   border-radius: 8px;
@@ -295,10 +309,10 @@ button:hover {
 
 .lesson-chip {
   position: absolute;
-  left: 28px;
-  bottom: 28px;
-  width: min(280px, calc(100% - 56px));
-  padding: 18px;
+  left: 20px;
+  bottom: 20px;
+  width: min(240px, calc(100% - 40px));
+  padding: 14px;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.86);
   box-shadow: 0 18px 50px rgba(43, 24, 20, 0.12);
@@ -316,10 +330,10 @@ button:hover {
 .device-preview {
   position: absolute;
   right: 6%;
-  bottom: -36px;
-  width: 220px;
-  height: 140px;
-  padding: 12px;
+  bottom: -18px;
+  width: 170px;
+  height: 108px;
+  padding: 9px;
   border-radius: 8px;
   background: #151922;
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
@@ -789,16 +803,20 @@ button:hover {
 
   .hero {
     grid-template-columns: 1fr;
-    min-height: auto;
+    min-height: calc(100svh - 120px);
+    gap: 22px;
+    padding: clamp(24px, 5vw, 42px) 0;
   }
 
   .hero__visual {
-    min-height: 520px;
-    order: -1;
+    min-height: 280px;
+    max-width: 520px;
+    width: 100%;
+    margin: 0 auto;
   }
 
   .portrait-card {
-    min-height: 500px;
+    min-height: 280px;
   }
 
   .steps-grid,
@@ -843,31 +861,48 @@ button:hover {
   }
 
   .hero {
-    padding-top: 38px;
+    min-height: auto;
+    gap: 0;
+    padding: 26px 0 34px;
   }
 
   h1 {
-    font-size: clamp(2.15rem, 13vw, 3.7rem);
+    margin-bottom: 10px;
+    font-size: clamp(1.85rem, 9.2vw, 2.85rem);
+    line-height: 1;
+  }
+
+  .eyebrow {
+    margin-bottom: 8px;
+    font-size: 0.68rem;
+  }
+
+  .hero__lead {
+    margin-bottom: 12px;
+    font-size: 0.88rem;
+    line-height: 1.34;
+  }
+
+  .lead-form {
+    gap: 6px;
+  }
+
+  input {
+    height: 38px;
+  }
+
+  button {
+    height: 44px;
+    font-size: 0.76rem;
+  }
+
+  .form-message {
+    min-height: 14px;
+    font-size: 0.72rem;
   }
 
   .hero__visual {
-    min-height: 390px;
-  }
-
-  .portrait-card {
-    min-height: 380px;
-  }
-
-  .lesson-chip {
-    left: 16px;
-    bottom: 16px;
-  }
-
-  .device-preview {
-    width: 178px;
-    height: 118px;
-    right: 14px;
-    bottom: -24px;
+    display: none;
   }
 
   .number-card,
