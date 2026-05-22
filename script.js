@@ -144,7 +144,7 @@ function initThanksCountdown() {
     });
   }
 
-  let seconds = 10;
+  let seconds = 60;
   countdown.textContent = pad(seconds);
 
   const interval = setInterval(() => {

@@ -1504,7 +1504,7 @@ button:hover {
 }
 
 .confirmed-hero {
-  max-width: 840px;
+  max-width: min(1120px, 100%);
   margin: 0 auto;
   text-align: center;
 }
@@ -1538,9 +1538,11 @@ button:hover {
   background-size: 260% 100%;
   background-clip: text;
   color: transparent;
-  font-size: clamp(3.6rem, 9vw, 8.2rem);
+  padding-inline: clamp(12px, 2vw, 28px);
+  font-size: clamp(2.8rem, 6.1vw, 5.45rem);
   line-height: 0.9;
   font-weight: 900;
+  overflow: visible;
   animation: confirmedShine 3.8s ease-in-out infinite;
 }
 
@@ -1604,17 +1606,14 @@ button:hover {
 @keyframes confirmedShine {
   0% {
     background-position: 120% 50%;
-    filter: drop-shadow(0 0 0 rgba(122, 30, 42, 0));
   }
 
   50% {
     background-position: 20% 50%;
-    filter: drop-shadow(0 10px 24px rgba(122, 30, 42, 0.18));
   }
 
   100% {
     background-position: -80% 50%;
-    filter: drop-shadow(0 0 0 rgba(122, 30, 42, 0));
   }
 }
 
@@ -1624,6 +1623,48 @@ button:hover {
 
 .confirmed-grid {
   padding-bottom: 0;
+}
+
+.confirmed-mail-grid {
+  align-items: stretch;
+}
+
+.confirmed-mail-card {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 16px;
+  align-items: start;
+  text-align: left;
+}
+
+.confirmed-mail-icon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  color: var(--accent-dark);
+}
+
+.confirmed-mail-icon svg {
+  width: 30px;
+  height: 30px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.confirmed-mail-card h2 {
+  margin: 0 0 8px;
+  font-size: 0.98rem;
+  line-height: 1.28;
+  font-weight: 900;
+}
+
+.confirmed-mail-card p {
+  line-height: 1.55;
 }
 
 @media (max-width: 900px) {
@@ -1682,6 +1723,6 @@ button:hover {
   }
 
   .confirmed-hero h1 {
-    font-size: clamp(3rem, 16vw, 5.2rem);
+    font-size: clamp(2.2rem, 11vw, 3.6rem);
   }
 }
