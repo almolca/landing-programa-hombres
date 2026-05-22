@@ -1,3 +1,4 @@
+const WHATSAPP_URL = "";
 const targetDate = new Date("2026-05-28T19:00:00+04:00").getTime();
 
 const daysEl = document.querySelector("#days");
@@ -87,9 +88,8 @@ function bindForm(form, message) {
     setFieldError(fields.name, false);
     setFieldError(fields.email, false);
     setPrivacyError(false);
-    message.textContent = "Plaza reservada. Revisa tu email para el acceso.";
-    message.classList.add("is-success");
     form.reset();
+    window.location.href = "gracias.html";
   });
 }
 
@@ -116,9 +116,66 @@ function initScrollReveal() {
   revealItems.forEach((item) => observer.observe(item));
 }
 
-updateTimer();
-setInterval(updateTimer, 60000);
+function getWhatsappUrl() {
+  const url = WHATSAPP_URL.trim();
+  return url && !url.includes("PEGAR") ? url : "";
+}
 
-bindForm(document.querySelector("#heroForm"), document.querySelector("#formMessage"));
-bindForm(document.querySelector("#footerForm"), document.querySelector("#footerMessage"));
+function initThanksCountdown() {
+  const countdown =
+    document.querySelector("#whatsappCountdown") || document.querySelector("#confirmedCountdown");
+  const whatsappButton =
+    document.querySelector("#whatsappButton") || document.querySelector("#confirmedWhatsappButton");
+
+  if (!countdown || !whatsappButton) {
+    return;
+  }
+
+  const whatsappUrl = getWhatsappUrl();
+
+  if (whatsappUrl) {
+    whatsappButton.href = whatsappUrl;
+    whatsappButton.target = "_blank";
+  } else {
+    whatsappButton.removeAttribute("target");
+    whatsappButton.setAttribute("aria-disabled", "true");
+    whatsappButton.addEventListener("click", (event) => {
+      event.preventDefault();
+    });
+  }
+
+  let seconds = 10;
+  countdown.textContent = pad(seconds);
+
+  const interval = setInterval(() => {
+    seconds -= 1;
+    countdown.textContent = pad(Math.max(seconds, 0));
+
+    if (seconds <= 0) {
+      clearInterval(interval);
+
+      if (whatsappUrl) {
+        window.location.href = whatsappUrl;
+      }
+    }
+  }, 1000);
+}
+
+if (daysEl && hoursEl && minutesEl) {
+  updateTimer();
+  setInterval(updateTimer, 60000);
+}
+
+const heroForm = document.querySelector("#heroForm");
+const footerForm = document.querySelector("#footerForm");
+
+if (heroForm) {
+  bindForm(heroForm, document.querySelector("#formMessage"));
+}
+
+if (footerForm) {
+  bindForm(footerForm, document.querySelector("#footerMessage"));
+}
+
 initScrollReveal();
+initThanksCountdown();

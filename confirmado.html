@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plaza confirmada</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="thanks-page confirmed-page">
+    <header class="thanks-progress" aria-label="Progreso del registro">
+      <div class="thanks-progress__inner">
+        <span>REGISTRO COMPLETADO</span>
+        <div class="thanks-progress__track" aria-hidden="true">
+          <div class="thanks-progress__bar"></div>
+        </div>
+        <strong>100%</strong>
+      </div>
+    </header>
+
+    <main class="confirmed-main">
+      <section class="confirmed-hero">
+        <div class="confirmed-status" aria-hidden="true">Confirmación completada</div>
+        <h1>PLAZA CONFIRMADA</h1>
+        <p class="confirmed-lead">Ya formas parte de la comunidad privada</p>
+        <p class="confirmed-copy">
+          Revisa tu WhatsApp y tu email para recibir los recordatorios de la masterclass
+        </p>
+
+        <div class="confirmed-actions">
+          <a class="confirmed-button" id="confirmedWhatsappButton" href="#" rel="noopener">
+            Abrir WhatsApp ahora
+          </a>
+          <div class="redirect-box confirmed-countdown" aria-live="polite">
+            <span>Serás redirigido a WhatsApp en:</span>
+            <strong id="confirmedCountdown">10</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="help-grid confirmed-grid" aria-label="Próximos pasos">
+        <article>
+          <span>01</span>
+          <h2>Guarda la fecha</h2>
+          <p>La masterclass se enviará también por email para que no te la pierdas.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h2>Revisa tu correo</h2>
+          <p>Comprueba spam o promociones y guarda nuestro email.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h2>Entra en WhatsApp</h2>
+          <p>Ahí recibirás avisos, acceso y materiales adicionales.</p>
+        </article>
+      </section>
+    </main>
+
+    <footer class="thanks-footer">
+      <span>Copyright © 2026</span>
+      <a href="#">Política de privacidad</a>
+      <a href="#">Política de cookies</a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
