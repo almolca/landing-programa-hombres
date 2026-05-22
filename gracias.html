@@ -12,14 +12,14 @@
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body class="thanks-page">
+  <body class="thanks-page thanks-page--pending">
     <header class="thanks-progress" aria-label="Progreso del registro">
       <div class="thanks-progress__inner">
-        <span>REGISTRO EN PROCESO</span>
+        <span>REGISTRO CASI COMPLETADO</span>
         <div class="thanks-progress__track" aria-hidden="true">
           <div class="thanks-progress__bar"></div>
         </div>
-        <strong>50%</strong>
+        <strong>85%</strong>
       </div>
     </header>
 
@@ -28,7 +28,21 @@
         <div class="thanks-hero__content">
           <p class="thanks-kicker">IMPORTANTE: PASO 2</p>
           <p class="thanks-alert">Aún te queda este paso para reservar tu plaza</p>
-          <h1>PLAZA NO CONFIRMADA</h1>
+          <h1>
+            PLAZA
+            <span class="thanks-title__no">
+              NO
+              <svg
+                class="thanks-title__no-mark"
+                viewBox="0 0 120 18"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path d="M4 11 C22 17, 45 4, 64 9 C82 14, 96 5, 116 10" />
+              </svg>
+            </span>
+            CONFIRMADA
+          </h1>
           <p class="thanks-subtitle">Te falta un paso para acceder a la masterclass</p>
 
           <a class="whatsapp-cta" href="confirmado.html">
@@ -42,27 +56,30 @@
             Unirme a la comunidad privada de WhatsApp
           </a>
 
-          <p class="thanks-copy">
-            Únete a la comunidad privada para recibir los detalles de la masterclass,
-            recordatorios y materiales adicionales.
-          </p>
-
-          <div class="redirect-box" aria-live="polite">
-            <span>Haz clic en el botón para confirmar tu plaza en la comunidad.</span>
-          </div>
-        </div>
-
-        <aside class="bonus-card" aria-label="Recurso gratuito exclusivo">
-          <div class="bonus-mockup">
-            <div class="bonus-mockup__cover">
-              <span>Guía privada</span>
-              <strong>Recurso exclusivo</strong>
-              <small>Para inscritos</small>
+          <aside class="bonus-card thanks-resource" aria-label="Recurso gratuito exclusivo">
+            <div class="bonus-mockup">
+              <div class="bonus-mockup__cover">
+                <span>Regalo exclusivo</span>
+                <strong>Combustible Premium</strong>
+                <small>Guía de alimentación 40+</small>
+              </div>
             </div>
-          </div>
-          <p>Accede también al recurso gratuito exclusivo para inscritos</p>
-        </aside>
+          </aside>
+
+          <p class="thanks-copy">
+            Únete a la comunidad privada de WhatsApp para poder recibir toda la información de la
+            masterclass y un <span class="thanks-accent">REGALO EXCLUSIVO</span>:
+            <strong>
+              Combustible Premium: la guía de alimentación para hombres que quieren más energía,
+              foco y potencia a sus 40+.
+            </strong>
+          </p>
+        </div>
       </section>
+
+      <div class="thanks-help-intro">
+        AVISO: Te acabo de enviar un correo. Si no lo has recibido:
+      </div>
 
       <section class="help-grid" aria-label="Pasos recomendados">
         <article>
