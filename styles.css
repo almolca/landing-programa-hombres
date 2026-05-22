@@ -1274,13 +1274,41 @@ button:hover {
 }
 
 .thanks-resource {
-  width: min(460px, 100%);
+  width: min(520px, 100%);
   margin: clamp(24px, 4vw, 36px) auto 0;
-  padding: 22px;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+  overflow: visible;
+  background: transparent;
 }
 
 .thanks-resource .bonus-mockup {
-  min-height: clamp(220px, 32vw, 300px);
+  min-height: auto;
+  margin-bottom: 0;
+  padding: clamp(8px, 2vw, 18px);
+  overflow: visible;
+  background: transparent;
+}
+
+.thanks-resource .bonus-mockup__image {
+  width: min(440px, 100%);
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  transform-origin: center;
+  animation: mockupFloat 5.5s ease-in-out infinite;
+}
+
+@keyframes mockupFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 .thanks-help-intro {
@@ -1720,6 +1748,10 @@ button:hover {
   .bonus-card,
   .help-grid article {
     padding: 22px;
+  }
+
+  .thanks-resource .bonus-mockup__image {
+    width: min(330px, 100%);
   }
 
   .confirmed-hero h1 {
