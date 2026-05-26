@@ -692,6 +692,59 @@ button:hover {
   filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.22));
 }
 
+.about-doctor-visual {
+  position: relative;
+  width: min(560px, 100%);
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  isolation: isolate;
+}
+
+.about-doctor-visual::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  z-index: -1;
+  width: 72%;
+  height: 64%;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(122, 30, 42, 0.28), rgba(122, 30, 42, 0.12) 44%, transparent 72%);
+  filter: blur(54px);
+  opacity: 0.72;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.about-doctor-visual::after {
+  content: "";
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  bottom: -1px;
+  z-index: 2;
+  height: 18%;
+  background: linear-gradient(180deg, rgba(8, 20, 28, 0), var(--deep) 88%);
+  pointer-events: none;
+}
+
+.about-doctor-image {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 22px 48px rgba(0, 0, 0, 0.24));
+}
+
 .mentor-badge {
   position: absolute;
   left: 24px;
@@ -834,7 +887,17 @@ button:hover {
 
 .final-cta__mockup {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   min-height: 230px;
+}
+
+.final-cta__mockup-image {
+  display: block;
+  width: min(460px, 100%);
+  height: auto;
+  object-fit: contain;
 }
 
 .laptop {
@@ -861,21 +924,51 @@ button:hover {
 }
 
 .laptop__screen {
+  position: relative;
+  overflow: hidden;
   height: 180px;
   display: grid;
   align-content: end;
   gap: 8px;
   padding: 22px;
   border-radius: 6px;
+  background: #08141c;
+}
+
+.laptop__screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   background:
-    linear-gradient(130deg, rgba(47, 142, 163, 0.3), transparent 44%),
-    linear-gradient(180deg, #d8cbbe, #fffaf3);
+    linear-gradient(90deg, rgba(8, 20, 28, 0.32), rgba(8, 20, 28, 0.08) 46%, rgba(8, 20, 28, 0.28)),
+    linear-gradient(180deg, rgba(8, 20, 28, 0.04), rgba(8, 20, 28, 0.36));
+  pointer-events: none;
+}
+
+.laptop__screen img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 46% 46%;
+  filter: brightness(1.18) contrast(1.05);
+}
+
+.laptop__overlay {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 8px;
 }
 
 .laptop__screen strong {
   max-width: 190px;
+  color: #fffaf3;
   font-size: 1.35rem;
   line-height: 1;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.34);
 }
 
 .laptop__screen span {
@@ -903,11 +996,19 @@ button:hover {
 
 .phone span {
   display: block;
+  overflow: hidden;
   height: 100%;
   border-radius: 11px;
-  background:
-    radial-gradient(circle at 50% 32%, #c8b8a7 0 16%, transparent 17%),
-    linear-gradient(180deg, #e8ddcf, #fffaf3);
+  background: #08141c;
+}
+
+.phone span img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 68% 30%;
+  filter: brightness(1.18) contrast(1.05);
 }
 
 @media (max-width: 980px) {
@@ -972,6 +1073,11 @@ button:hover {
 
   .final-cta__mockup {
     min-height: 260px;
+    justify-content: center;
+  }
+
+  .final-cta__mockup-image {
+    width: min(520px, 100%);
   }
 
   .laptop {
@@ -1083,6 +1189,26 @@ button:hover {
   .mentor-photo-card img {
     max-width: 430px;
     border-radius: 0;
+  }
+
+  .about-doctor-visual {
+    width: min(100%, 390px);
+    margin: 0 auto;
+  }
+
+  .about-doctor-visual::before {
+    width: 62%;
+    height: 56%;
+    filter: blur(42px);
+    opacity: 0.52;
+  }
+
+  .about-doctor-visual::after {
+    height: 16%;
+  }
+
+  .about-doctor-image {
+    max-width: 390px;
   }
 
   .mentor-badge {

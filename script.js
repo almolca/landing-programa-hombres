@@ -1,5 +1,5 @@
 const WHATSAPP_URL = "";
-const targetDate = new Date("2026-05-28T19:00:00+04:00").getTime();
+const targetDate = Date.now() + 15 * 86400000;
 
 const daysEl = document.querySelector("#days");
 const hoursEl = document.querySelector("#hours");
