@@ -8,6 +8,7 @@ const targetDate = Date.now() + 15 * 86400000;
 const daysEl = document.querySelector("#days");
 const hoursEl = document.querySelector("#hours");
 const minutesEl = document.querySelector("#minutes");
+const secondsEl = document.querySelector("#seconds");
 
 function pad(value) {
   return String(value).padStart(2, "0");
@@ -219,10 +220,90 @@ function updateTimer() {
   const days = Math.floor(remaining / 86400000);
   const hours = Math.floor((remaining % 86400000) / 3600000);
   const minutes = Math.floor((remaining % 3600000) / 60000);
+  const seconds = Math.floor((remaining % 60000) / 1000);
 
   daysEl.textContent = pad(days);
   hoursEl.textContent = pad(hours);
   minutesEl.textContent = pad(minutes);
+  secondsEl.textContent = pad(seconds);
+}
+
+function initMentorStatsCounter() {
+  const statsContainer = document.querySelector(".mentor-stats");
+  const statValues = statsContainer?.querySelectorAll("strong") || [];
+
+  if (!statValues.length) {
+    return;
+  }
+
+  const numberFormatter = new Intl.NumberFormat("es-ES");
+
+  function getStatParts(value) {
+    const text = value.trim();
+    const prefix = text.startsWith("+") ? "+" : "";
+    const suffix = text.endsWith("%") ? "%" : "";
+    const target = Number(text.replace(/[^\d]/g, ""));
+
+    return { prefix, suffix, target };
+  }
+
+  function formatStatValue(value, { prefix, suffix, target }) {
+    const formattedNumber = target >= 1000 ? numberFormatter.format(value) : String(value);
+    return `${prefix}${formattedNumber}${suffix}`;
+  }
+
+  function animateValue(element) {
+    if (element.dataset.counted === "true") {
+      return;
+    }
+
+    const statParts = getStatParts(element.textContent);
+
+    if (!statParts.target) {
+      return;
+    }
+
+    element.dataset.counted = "true";
+    const duration = 1400;
+    const startTime = performance.now();
+
+    function tick(now) {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+      const currentValue = Math.round(statParts.target * easedProgress);
+      element.textContent = formatStatValue(currentValue, statParts);
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        element.textContent = formatStatValue(statParts.target, statParts);
+      }
+    }
+
+    element.textContent = formatStatValue(0, statParts);
+    requestAnimationFrame(tick);
+  }
+
+  if (!("IntersectionObserver" in window)) {
+    statValues.forEach(animateValue);
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) {
+          return;
+        }
+
+        statValues.forEach(animateValue);
+        observer.disconnect();
+      });
+    },
+    { threshold: 0.35 }
+  );
+
+  observer.observe(statsContainer);
 }
 
 function bindForm(form, message) {
@@ -509,9 +590,9 @@ function handleCalendlyBookingEvent() {
   });
 }
 
-if (daysEl && hoursEl && minutesEl) {
+if (daysEl && hoursEl && minutesEl && secondsEl) {
   updateTimer();
-  setInterval(updateTimer, 60000);
+  setInterval(updateTimer, 1000);
 }
 
 const heroForm = document.querySelector("#heroForm");
@@ -526,6 +607,7 @@ if (footerForm) {
 }
 
 initScrollReveal();
+initMentorStatsCounter();
 initThanksCountdown();
 handleWhatsappClick();
 initCalendlyEmbed();
