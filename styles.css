@@ -660,11 +660,11 @@ button:hover {
 
 .mentor-profile__visual {
   position: absolute;
-  top: 22rem;
-  right: 6vw;
+  top: 18rem;
+  right: 5vw;
   bottom: 0;
   z-index: 1;
-  width: 38vw;
+  width: 43vw;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -741,6 +741,7 @@ button:hover {
   margin-left: 0;
   object-fit: contain;
   object-position: bottom center;
+  transform: translateY(24px);
   filter: none;
 }
 
@@ -1230,6 +1231,7 @@ button:hover {
     max-height: none;
     margin-left: 0;
     object-position: bottom center;
+    transform: none;
   }
 
   .mentor-badge {
