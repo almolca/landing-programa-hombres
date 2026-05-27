@@ -358,13 +358,7 @@ button:hover {
 }
 
 .hero-doctor::after {
-  content: "";
-  position: absolute;
-  inset: auto 5% -1px 5%;
-  height: 34%;
-  z-index: 2;
-  background: linear-gradient(180deg, rgba(255, 250, 243, 0), var(--ivory) 88%);
-  pointer-events: none;
+  content: none;
 }
 
 .hero-doctor img {
