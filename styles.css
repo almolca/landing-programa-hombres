@@ -617,6 +617,7 @@ button:hover {
 }
 
 .mentor-section {
+  position: relative;
   width: 100%;
   padding: clamp(72px, 10vw, 122px) max(16px, calc((100vw - 1180px) / 2));
   background:
@@ -627,6 +628,7 @@ button:hover {
 }
 
 .mentor-section__inner {
+  position: static;
   width: min(1180px, 100%);
   margin: 0 auto;
 }
@@ -649,6 +651,7 @@ button:hover {
 }
 
 .mentor-profile {
+  position: static;
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(360px, 1.05fr);
   align-items: center;
@@ -656,11 +659,18 @@ button:hover {
 }
 
 .mentor-profile__visual {
-  position: relative;
-  display: grid;
-  place-items: end center;
-  min-height: 620px;
+  position: absolute;
+  top: 22rem;
+  right: 6vw;
+  bottom: 0;
+  z-index: 1;
+  width: 38vw;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 0;
   overflow: visible;
+  pointer-events: none;
 }
 
 .mentor-photo-card {
@@ -697,7 +707,11 @@ button:hover {
 
 .about-doctor-visual {
   position: relative;
-  width: min(560px, 100%);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
   margin: 0;
   padding: 0;
   overflow: visible;
@@ -717,13 +731,16 @@ button:hover {
 }
 
 .about-doctor-image {
-  position: relative;
+  position: static;
   z-index: 1;
   display: block;
-  width: 100%;
-  max-width: 560px;
-  height: auto;
+  width: auto;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin-left: 0;
   object-fit: contain;
+  object-position: bottom center;
   filter: none;
 }
 
@@ -757,6 +774,8 @@ button:hover {
 }
 
 .mentor-profile__copy {
+  position: relative;
+  z-index: 2;
   max-width: 620px;
 }
 
@@ -1062,8 +1081,15 @@ button:hover {
   }
 
   .mentor-profile__visual {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    z-index: 1;
+    width: 100%;
     min-height: auto;
     order: -1;
+    pointer-events: auto;
   }
 
   .mentor-profile__copy {
@@ -1192,11 +1218,18 @@ button:hover {
 
   .about-doctor-visual {
     width: min(100%, 390px);
+    height: auto;
     margin: 0 auto;
   }
 
   .about-doctor-image {
+    position: relative;
+    width: 100%;
     max-width: 390px;
+    height: auto;
+    max-height: none;
+    margin-left: 0;
+    object-position: bottom center;
   }
 
   .mentor-badge {
