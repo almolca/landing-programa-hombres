@@ -706,32 +706,11 @@ button:hover {
 }
 
 .about-doctor-visual::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 48%;
-  z-index: -1;
-  width: 72%;
-  height: 64%;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(122, 30, 42, 0.28), rgba(122, 30, 42, 0.12) 44%, transparent 72%);
-  filter: blur(54px);
-  opacity: 0.72;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
+  content: none;
 }
 
 .about-doctor-visual::after {
-  content: "";
-  position: absolute;
-  left: -8%;
-  right: -8%;
-  bottom: -1px;
-  z-index: 2;
-  height: 18%;
-  background: linear-gradient(180deg, rgba(8, 20, 28, 0), var(--deep) 88%);
-  pointer-events: none;
+  content: none;
 }
 
 .about-doctor-image {
@@ -742,7 +721,7 @@ button:hover {
   max-width: 560px;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 22px 48px rgba(0, 0, 0, 0.24));
+  filter: none;
 }
 
 .mentor-badge {
@@ -1194,17 +1173,6 @@ button:hover {
   .about-doctor-visual {
     width: min(100%, 390px);
     margin: 0 auto;
-  }
-
-  .about-doctor-visual::before {
-    width: 62%;
-    height: 56%;
-    filter: blur(42px);
-    opacity: 0.52;
-  }
-
-  .about-doctor-visual::after {
-    height: 16%;
   }
 
   .about-doctor-image {
@@ -2067,14 +2035,13 @@ button:hover {
 
 .agenda-panel {
   display: grid;
-  grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1fr);
+  grid-template-columns: minmax(260px, 0.58fr) minmax(0, 1.42fr);
   gap: clamp(22px, 4vw, 42px);
-  align-items: stretch;
+  align-items: start;
 }
 
 .agenda-info,
-.agenda-booking,
-.agenda-questions {
+.agenda-booking {
   border: 1px solid rgba(216, 203, 190, 0.78);
   border-radius: 10px;
   background: rgba(255, 250, 243, 0.82);
@@ -2122,34 +2089,7 @@ button:hover {
   overflow: hidden;
   min-height: 700px;
   padding: clamp(18px, 3vw, 26px);
-}
-
-.agenda-booking.is-locked {
-  display: grid;
-  place-items: center;
-}
-
-.agenda-booking.is-locked #calendlyEmbed {
-  display: none;
-}
-
-.agenda-lock {
-  max-width: 520px;
-  padding: clamp(24px, 4vw, 42px);
-  text-align: center;
-}
-
-.agenda-lock h2 {
-  margin-bottom: 14px;
-  font-size: clamp(1.55rem, 3vw, 2.55rem);
-  line-height: 1;
-}
-
-.agenda-lock p:not(.eyebrow) {
-  margin: 0;
-  color: var(--muted);
-  font-weight: 800;
-  line-height: 1.55;
+  width: 100%;
 }
 
 #calendlyEmbed {
@@ -2173,129 +2113,6 @@ button:hover {
   line-height: 1.45;
 }
 
-.agenda-questions {
-  margin-top: clamp(26px, 5vw, 48px);
-  padding: clamp(24px, 4vw, 42px);
-}
-
-.agenda-section-heading {
-  max-width: 720px;
-  margin-bottom: 28px;
-}
-
-.agenda-section-heading h2 {
-  margin-bottom: 0;
-  font-size: clamp(1.7rem, 3vw, 2.7rem);
-  line-height: 1;
-}
-
-.agenda-form {
-  display: grid;
-  gap: 22px;
-}
-
-.agenda-form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.agenda-field {
-  display: grid;
-  gap: 10px;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
-.agenda-field span,
-.agenda-field legend {
-  color: var(--ink);
-  font-size: 0.94rem;
-  font-weight: 900;
-  line-height: 1.35;
-}
-
-.agenda-options {
-  display: grid;
-  gap: 10px;
-}
-
-.agenda-options label {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--muted);
-  font-weight: 800;
-}
-
-.agenda-options label.is-error {
-  color: var(--accent-dark);
-}
-
-.agenda-options input {
-  width: 16px;
-  height: 16px;
-  accent-color: var(--accent);
-}
-
-.agenda-field input {
-  height: 48px;
-}
-
-.agenda-field textarea {
-  width: 100%;
-  min-height: 96px;
-  resize: vertical;
-  padding: 14px 16px;
-  border: 1px solid rgba(216, 203, 190, 0.95);
-  border-radius: 8px;
-  background: rgba(255, 250, 243, 0.78);
-  color: var(--ink);
-  font: inherit;
-  font-weight: 700;
-}
-
-.agenda-field textarea:focus {
-  outline: none;
-  border-color: rgba(122, 30, 42, 0.5);
-  box-shadow: 0 0 0 4px rgba(122, 30, 42, 0.08);
-}
-
-.agenda-field textarea.is-error {
-  border-color: rgba(122, 30, 42, 0.62);
-  box-shadow: 0 0 0 4px rgba(122, 30, 42, 0.09);
-}
-
-.agenda-submit {
-  border: 0;
-  width: max-content;
-  min-height: 52px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 24px;
-  border-radius: 8px;
-  background: var(--accent-dark);
-  color: #fff;
-  box-shadow: 0 12px 28px rgba(8, 20, 28, 0.14);
-  font-size: 0.82rem;
-  font-weight: 900;
-  text-decoration: none;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.agenda-submit:hover {
-  background: #481019;
-}
-
-.agenda-submit:disabled {
-  cursor: wait;
-  opacity: 0.7;
-  transform: none;
-}
-
 @media (max-width: 900px) {
   .agenda-panel {
     grid-template-columns: 1fr;
@@ -2317,21 +2134,12 @@ button:hover {
   }
 
   .agenda-info,
-  .agenda-booking,
-  .agenda-questions {
+  .agenda-booking {
     border-radius: 8px;
-  }
-
-  .agenda-form-grid {
-    grid-template-columns: 1fr;
   }
 
   .agenda-booking {
     min-height: 800px;
     padding: 12px;
-  }
-
-  .agenda-submit {
-    width: 100%;
   }
 }

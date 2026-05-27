@@ -14,11 +14,11 @@
   </head>
   <body class="agenda-page">
     <header class="agenda-header">
-      <a class="agenda-brand" href="index.html">Masterclass salud masculina</a>
+      <a class="agenda-brand" href="index.html">PROGRAMA VITALIDAD MASCULINA MVP +40</a>
       <div>
         <p class="eyebrow">Siguiente paso</p>
         <h1>Agenda tu entrevista de acceso</h1>
-        <p>Reserva una llamada para valorar si el programa encaja contigo.</p>
+        <p>Reserva una videollamada privada para valorar tu situación y confirmar si el programa encaja contigo.</p>
       </div>
     </header>
 
@@ -37,77 +37,10 @@
           </div>
         </div>
 
-        <div class="agenda-booking is-locked" id="calendly" aria-label="Calendario de reserva">
-          <div class="agenda-lock" id="agendaLock">
-            <p class="eyebrow">Agenda bloqueada</p>
-            <h2>Completa el cuestionario para desbloquear tu llamada</h2>
-            <p>
-              Al enviarlo, abriremos el calendario aquí mismo con tus datos prellenados.
-            </p>
-          </div>
+        <div class="agenda-booking" id="calendly" aria-label="Calendario de reserva">
           <div id="calendlyEmbed"></div>
           <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
         </div>
-      </section>
-
-      <section class="agenda-questions" aria-label="Preguntas previas">
-        <div class="agenda-section-heading">
-          <p class="eyebrow">Antes de reservar</p>
-          <h2>Cuéntanos brevemente tu situación</h2>
-        </div>
-
-        <form class="agenda-form" id="agendaForm">
-          <div class="agenda-form-grid">
-            <label class="agenda-field">
-              <span>Nombre</span>
-              <input type="text" name="name" autocomplete="name" />
-            </label>
-
-            <label class="agenda-field">
-              <span>Email</span>
-              <input type="email" name="email" autocomplete="email" />
-            </label>
-          </div>
-
-          <fieldset class="agenda-field">
-            <legend>¿Has visto la clase gratuita?</legend>
-            <div class="agenda-options">
-              <label><input type="radio" name="class_seen" value="Sí, completa" /> Sí, completa</label>
-              <label><input type="radio" name="class_seen" value="Me falta algo" /> Me falta algo</label>
-              <label><input type="radio" name="class_seen" value="No la he visto aún" /> No la he visto aún</label>
-            </div>
-          </fieldset>
-
-          <label class="agenda-field">
-            <span>¿Qué es lo que más te gustaría mejorar ahora mismo?</span>
-            <textarea name="main_goal" rows="3"></textarea>
-          </label>
-
-          <label class="agenda-field">
-            <span>¿Por qué te gustaría formar parte del programa?</span>
-            <textarea name="why_program" rows="3"></textarea>
-          </label>
-
-          <label class="agenda-field">
-            <span>¿Por qué ahora y no dentro de dos años?</span>
-            <textarea name="why_now" rows="3"></textarea>
-          </label>
-
-          <fieldset class="agenda-field">
-            <legend>Esta formación tiene un coste. ¿Estás dispuesto a invertir en ti?</legend>
-            <div class="agenda-options">
-              <label><input type="radio" name="investment" value="Sí, cuento con recursos" /> Sí, cuento con recursos</label>
-              <label>
-                <input type="radio" name="investment" value="No cuento con recursos, pero podría conseguirlos" /> No cuento con recursos, pero podría
-                conseguirlos
-              </label>
-              <label><input type="radio" name="investment" value="No, no cuento con recursos" /> No, no cuento con recursos</label>
-            </div>
-          </fieldset>
-
-          <button class="agenda-submit" type="submit">Programar entrevista</button>
-          <p class="form-message" id="agendaFormMessage" role="status" aria-live="polite"></p>
-        </form>
       </section>
     </main>
 

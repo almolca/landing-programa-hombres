@@ -414,185 +414,11 @@ function handleWhatsappClick() {
   });
 }
 
-function handleAgendaFormSubmit() {
-  const agendaForm = document.querySelector("#agendaForm");
-
-  if (!agendaForm) {
-    return;
-  }
-
-  const message = document.querySelector("#agendaFormMessage");
-  const fields = {
-    name: agendaForm.querySelector('[name="name"]'),
-    email: agendaForm.querySelector('[name="email"]'),
-    classSeen: agendaForm.querySelectorAll('[name="class_seen"]'),
-    mainGoal: agendaForm.querySelector('[name="main_goal"]'),
-    whyProgram: agendaForm.querySelector('[name="why_program"]'),
-    whyNow: agendaForm.querySelector('[name="why_now"]'),
-    investment: agendaForm.querySelectorAll('[name="investment"]'),
-  };
-  const initialStoredSession = getLeadSession();
-  const initialUrlLeadData = getAgendaUrlLeadData();
-  const agendaLead = getAgendaLeadSession();
-
-  if (fields.name && agendaLead.session?.name) {
-    fields.name.value = agendaLead.session.name;
-  }
-
-  if (fields.email && agendaLead.session?.email) {
-    fields.email.value = agendaLead.session.email;
-  }
-
-  function isValidEmail(value) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
-  }
-
-  function setFieldError(field, hasError) {
-    if (!field) {
-      return;
-    }
-
-    field.classList.toggle("is-error", hasError);
-    field.setAttribute("aria-invalid", String(hasError));
-  }
-
-  function setOptionGroupError(options, hasError) {
-    options.forEach((option) => {
-      option.closest("label")?.classList.toggle("is-error", hasError);
-      option.setAttribute("aria-invalid", String(hasError));
-    });
-  }
-
-  function setMessage(text, isSuccess = false) {
-    if (!message) {
-      return;
-    }
-
-    message.textContent = text;
-    message.classList.toggle("is-success", isSuccess);
-  }
-
-  agendaForm.addEventListener("input", () => {
-    setMessage("");
-  });
-
-  agendaForm.addEventListener("change", () => {
-    setMessage("");
-  });
-
-  agendaForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const formData = new FormData(agendaForm);
-    const name = String(formData.get("name") || "").trim();
-    const email = String(formData.get("email") || "").trim();
-    const agendaAnswers = {
-      classSeen: formData.get("class_seen") || "",
-      mainGoal: String(formData.get("main_goal") || "").trim(),
-      whyProgram: String(formData.get("why_program") || "").trim(),
-      whyNow: String(formData.get("why_now") || "").trim(),
-      investmentReadiness: formData.get("investment") || "",
-    };
-    const nameIsMissing = !name;
-    const emailIsMissing = !email;
-    const emailIsInvalid = Boolean(email) && !isValidEmail(email);
-    const classSeenIsMissing = !agendaAnswers.classSeen;
-    const mainGoalIsMissing = !agendaAnswers.mainGoal;
-    const whyProgramIsMissing = !agendaAnswers.whyProgram;
-    const whyNowIsMissing = !agendaAnswers.whyNow;
-    const investmentIsMissing = !agendaAnswers.investmentReadiness;
-    const isValid =
-      !nameIsMissing &&
-      !emailIsMissing &&
-      !emailIsInvalid &&
-      !classSeenIsMissing &&
-      !mainGoalIsMissing &&
-      !whyProgramIsMissing &&
-      !whyNowIsMissing &&
-      !investmentIsMissing;
-
-    setFieldError(fields.name, nameIsMissing);
-    setFieldError(fields.email, emailIsMissing || emailIsInvalid);
-    setFieldError(fields.mainGoal, mainGoalIsMissing);
-    setFieldError(fields.whyProgram, whyProgramIsMissing);
-    setFieldError(fields.whyNow, whyNowIsMissing);
-    setOptionGroupError(fields.classSeen, classSeenIsMissing);
-    setOptionGroupError(fields.investment, investmentIsMissing);
-
-    if (!isValid) {
-      setMessage(
-        emailIsInvalid
-          ? "Revisa el formato del email antes de continuar."
-          : "Completa todos los campos para desbloquear la agenda."
-      );
-      return;
-    }
-
-    const previousSession = getLeadSession();
-    const hadLeadBeforeSubmit = Boolean(
-      initialStoredSession?.leadId || initialUrlLeadData.leadId
-    );
-    const now = new Date().toISOString();
-    const leadSession = saveLeadSession({
-      leadId: previousSession?.leadId || initialUrlLeadData.leadId || createLeadId(),
-      name,
-      email,
-      updatedAt: now,
-    });
-
-    agendaForm.querySelector(".agenda-submit")?.setAttribute("disabled", "true");
-    setMessage("Enviando solicitud...");
-
-    if (!hadLeadBeforeSubmit) {
-      await sendLeadToN8N({
-        event: "lead_created",
-        event_name: "lead_created",
-        name: leadSession.name,
-        email: leadSession.email,
-        leadId: leadSession.leadId,
-        sourcePage: "agenda",
-        funnelStage: "agenda_form_started",
-        funnel_stage: "agenda_form_started",
-        createdAt: leadSession.createdAt,
-        updatedAt: now,
-        ...leadSession.utms,
-        referrer: document.referrer || "",
-        landingUrl: window.location.origin + window.location.pathname,
-        currentUrl: window.location.href,
-        userAgent: navigator.userAgent,
-      });
-    }
-
-    await sendFunnelEvent("agenda_form_submitted", {
-      event_name: "agenda_form_submitted",
-      email: leadSession.email,
-      leadId: leadSession.leadId,
-      name: leadSession.name,
-      timestamp: now,
-      page: "agenda",
-      source: "post_masterclass",
-      currentUrl: window.location.href,
-      agendaAnswers,
-      funnelStage: "agenda_form_submitted",
-      funnel_stage: "agenda_form_submitted",
-    });
-
-    setMessage("Solicitud enviada. Ya puedes elegir horario.", true);
-    unlockCalendly(leadSession);
-    document.querySelector("#calendly")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  });
-}
-
-function unlockCalendly(session) {
+function initCalendlyWidget(session) {
   if (getPageName() !== "agenda") {
     return;
   }
 
-  const calendlyWrapper = document.querySelector("#calendly");
-  const agendaLock = document.querySelector("#agendaLock");
   const parentElement = document.getElementById("calendlyEmbed");
 
   if (!parentElement) {
@@ -615,9 +441,6 @@ function unlockCalendly(session) {
     }
 
     parentElement.dataset.calendlyInitialized = "true";
-    calendlyWrapper?.classList.remove("is-locked");
-    calendlyWrapper?.classList.add("is-unlocked");
-    agendaLock?.setAttribute("hidden", "true");
     window.Calendly.initInlineWidget({
       url: CALENDLY_URL,
       parentElement,
@@ -642,7 +465,8 @@ function initCalendlyEmbed() {
     return;
   }
 
-  getAgendaLeadSession();
+  const { session } = getAgendaLeadSession();
+  initCalendlyWidget(session);
 }
 
 function handleCalendlyBookingEvent() {
@@ -704,7 +528,6 @@ if (footerForm) {
 initScrollReveal();
 initThanksCountdown();
 handleWhatsappClick();
-handleAgendaFormSubmit();
 initCalendlyEmbed();
 trackPageViewByPage();
 handleCalendlyBookingEvent();
