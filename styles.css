@@ -1124,6 +1124,13 @@ button:hover {
 }
 
 @media (max-width: 980px) {
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: linear-gradient(90deg, var(--deep), var(--deep-2));
+  }
+
   .topbar__inner {
     grid-template-columns: 1fr;
     justify-items: center;
@@ -1224,7 +1231,9 @@ button:hover {
 
 @media (max-width: 640px) {
   .topbar {
-    position: static;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
   }
 
   .topbar__note {
@@ -1257,9 +1266,15 @@ button:hover {
   }
 
   h1 {
-    margin-bottom: 10px;
-    font-size: clamp(1.85rem, 9.2vw, 2.85rem);
-    line-height: 1;
+    margin-bottom: 8px;
+    font-size: clamp(1.55rem, 7.65vw, 2.25rem);
+    line-height: 0.96;
+  }
+
+  .hero h1 {
+    max-width: 100%;
+    font-size: clamp(1.55rem, 7.65vw, 2.25rem);
+    line-height: 0.96;
   }
 
   .eyebrow {

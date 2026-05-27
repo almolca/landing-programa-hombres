@@ -9,10 +9,8 @@ if ("scrollRestoration" in history) {
   history.scrollRestoration = "manual";
 }
 
-if (!window.location.hash) {
-  window.scrollTo(0, 0);
-  window.addEventListener("load", () => window.scrollTo(0, 0), { once: true });
-}
+window.scrollTo(0, 0);
+window.addEventListener("load", () => window.scrollTo(0, 0));
 
 const daysEl = document.querySelector("#days");
 const hoursEl = document.querySelector("#hours");
@@ -337,7 +335,7 @@ function initMentorStatsCounter() {
     },
     {
       rootMargin: "0px 0px -10% 0px",
-      threshold: 0.08,
+      threshold: 0.1,
     }
   );
 
