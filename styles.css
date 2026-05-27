@@ -128,12 +128,20 @@ a {
 }
 
 .hero {
+  position: relative;
+  overflow: hidden;
   min-height: calc(100svh - 64px);
   display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.68fr);
-  gap: clamp(22px, 4.4vw, 58px);
+  grid-template-columns: minmax(0, 0.74fr) minmax(320px, 0.76fr);
+  gap: 0;
   align-items: center;
   padding: clamp(18px, 3.2vw, 38px) 0;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 540px;
 }
 
 .eyebrow {
@@ -167,8 +175,8 @@ h1 span {
 }
 
 .hero h1 {
-  max-width: 680px;
-  font-size: clamp(1.7rem, 3vw, 2.75rem);
+  max-width: 560px;
+  font-size: clamp(1.5rem, 2.55vw, 2.35rem);
   line-height: 0.98;
 }
 
@@ -206,10 +214,10 @@ h1 span {
 }
 
 .hero__lead {
-  max-width: 660px;
+  max-width: 520px;
   margin-bottom: 12px;
   color: var(--muted);
-  font-size: clamp(0.88rem, 1.05vw, 0.98rem);
+  font-size: clamp(0.82rem, 0.95vw, 0.92rem);
   line-height: 1.36;
   font-weight: 600;
 }
@@ -324,37 +332,36 @@ button:hover {
 }
 
 .hero__visual {
-  position: relative;
-  min-height: clamp(360px, 58svh, 480px);
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  width: min(56vw, 640px);
+  height: min(88vh, 94%);
+  min-height: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
 }
 
 .hero__visual--doctor {
   display: grid;
   align-items: end;
-  justify-items: center;
-  min-height: clamp(390px, 60svh, 560px);
+  justify-items: end;
+  min-height: 0;
   overflow: visible;
 }
 
 .hero-doctor {
   position: relative;
-  width: min(520px, 100%);
+  width: 100%;
+  height: 100%;
   display: grid;
-  place-items: end center;
+  place-items: end end;
   isolation: isolate;
 }
 
 .hero-doctor::before {
-  content: "";
-  position: absolute;
-  inset: 18% 2% 0;
-  z-index: -1;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 56% 42%, rgba(122, 30, 42, 0.12), transparent 42%),
-    radial-gradient(circle at 50% 64%, rgba(8, 20, 28, 0.14), transparent 58%);
-  filter: blur(38px);
-  opacity: 0.72;
+  content: none;
 }
 
 .hero-doctor::after {
@@ -363,9 +370,11 @@ button:hover {
 
 .hero-doctor img {
   display: block;
-  width: min(520px, 100%);
-  max-height: min(72svh, 620px);
+  width: 100%;
+  height: 100%;
+  max-height: none;
   object-fit: contain;
+  object-position: bottom right;
   filter: drop-shadow(0 28px 42px rgba(8, 20, 28, 0.16));
 }
 
@@ -997,30 +1006,47 @@ button:hover {
   }
 
   .hero {
+    position: relative;
     grid-template-columns: 1fr;
     min-height: calc(100svh - 120px);
     gap: 22px;
     padding: clamp(24px, 5vw, 42px) 0;
   }
 
+  .hero__content {
+    max-width: none;
+  }
+
   .hero__visual {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    z-index: 1;
+    height: auto;
     min-height: 280px;
     max-width: 520px;
     width: 100%;
     margin: 0 auto;
+    transform: none;
+    pointer-events: auto;
   }
 
   .hero__visual--doctor {
     min-height: 340px;
     align-items: center;
+    justify-items: center;
   }
 
   .hero-doctor {
     width: min(420px, 76vw);
+    height: auto;
+    place-items: end center;
   }
 
   .hero-doctor img {
+    height: auto;
     max-height: 380px;
+    object-position: bottom center;
   }
 
   .portrait-card {
