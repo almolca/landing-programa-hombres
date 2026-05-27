@@ -1,4 +1,8 @@
 const WHATSAPP_URL = "";
+const N8N_LEAD_WEBHOOK_URL = "https://automation.susanai.net/webhook/lead-created";
+const N8N_EVENT_WEBHOOK_URL = "https://automation.susanai.net/webhook/funnel-events";
+const LEAD_SESSION_KEY = "arleyaLeadSession";
+const CALENDLY_URL = "https://calendly.com/arleya-info/30min";
 const targetDate = Date.now() + 15 * 86400000;
 
 const daysEl = document.querySelector("#days");
@@ -7,6 +11,207 @@ const minutesEl = document.querySelector("#minutes");
 
 function pad(value) {
   return String(value).padStart(2, "0");
+}
+
+function isWebhookConfigured(url) {
+  return Boolean(url && !url.includes("PEGAR_AQUI"));
+}
+
+function getUTMParams() {
+  const params = new URLSearchParams(window.location.search);
+  const session = getLeadSession();
+
+  return {
+    utm_source: params.get("utm_source") || session?.utms?.utm_source || "",
+    utm_medium: params.get("utm_medium") || session?.utms?.utm_medium || "",
+    utm_campaign: params.get("utm_campaign") || session?.utms?.utm_campaign || "",
+    utm_content: params.get("utm_content") || session?.utms?.utm_content || "",
+    utm_term: params.get("utm_term") || session?.utms?.utm_term || "",
+  };
+}
+
+function getLeadSession() {
+  try {
+    return JSON.parse(localStorage.getItem(LEAD_SESSION_KEY)) || null;
+  } catch (error) {
+    return null;
+  }
+}
+
+function getAgendaUrlLeadData() {
+  const params = new URLSearchParams(window.location.search);
+  const leadData = {
+    email: params.get("email")?.trim() || "",
+    leadId: params.get("leadId")?.trim() || "",
+    name: params.get("name")?.trim() || "",
+  };
+
+  return {
+    ...leadData,
+    hasUrlLeadData: Boolean(leadData.email || leadData.leadId || leadData.name),
+  };
+}
+
+function getAgendaLeadSession() {
+  const storedSession = getLeadSession() || {};
+  const urlLeadData = getAgendaUrlLeadData();
+  const session = {
+    ...storedSession,
+    email: urlLeadData.email || storedSession.email || "",
+    leadId: urlLeadData.leadId || storedSession.leadId || "",
+    name: urlLeadData.name || storedSession.name || "",
+    utms: storedSession.utms || getUTMParams(),
+  };
+
+  if (urlLeadData.hasUrlLeadData) {
+    return {
+      session: saveLeadSession(session),
+      hasLeadData: Boolean(session.email || session.leadId || session.name),
+      hasUrlLeadData: true,
+    };
+  }
+
+  return {
+    session,
+    hasLeadData: Boolean(session.email || session.leadId || session.name),
+    hasUrlLeadData: false,
+  };
+}
+
+function getOrCreateLeadId() {
+  const session = getLeadSession();
+
+  if (session?.leadId) {
+    return session.leadId;
+  }
+
+  if (window.crypto?.randomUUID) {
+    return `lead_${window.crypto.randomUUID()}`;
+  }
+
+  return `lead_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+}
+
+function createLeadId() {
+  if (window.crypto?.randomUUID) {
+    return `lead_${window.crypto.randomUUID()}`;
+  }
+
+  return `lead_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+}
+
+function saveLeadSession(data) {
+  const currentSession = getLeadSession() || {};
+  const now = new Date().toISOString();
+  const session = {
+    leadId: data.leadId || currentSession.leadId || createLeadId(),
+    email: data.email || currentSession.email || "",
+    name: data.name || currentSession.name || "",
+    utms: data.utms || currentSession.utms || getUTMParams(),
+    createdAt: currentSession.createdAt || data.createdAt || now,
+    updatedAt: data.updatedAt || now,
+  };
+
+  try {
+    localStorage.setItem(LEAD_SESSION_KEY, JSON.stringify(session));
+  } catch (error) {
+    console.warn("No se pudo guardar la sesión del lead.", error);
+  }
+
+  return session;
+}
+
+function getPageName() {
+  const fileName = window.location.pathname.split("/").pop() || "index.html";
+  return fileName.replace(".html", "") || "index";
+}
+
+function getTrackingBasePayload() {
+  return {
+    timestamp: new Date().toISOString(),
+    page: getPageName(),
+    currentUrl: window.location.href,
+    utms: getUTMParams(),
+    referrer: document.referrer || "",
+  };
+}
+
+async function postToWebhook(url, payload) {
+  if (!isWebhookConfigured(url)) {
+    return null;
+  }
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+      keepalive: true,
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.warn("No se pudo enviar tracking a n8n.", response.status, errorText);
+      return null;
+    }
+
+    if (payload?.event === "calendly_booked") {
+      console.log("Calendly booking sent to n8n");
+    }
+
+    const contentType = response.headers.get("content-type") || "";
+
+    if (contentType.includes("application/json")) {
+      return await response.json();
+    }
+
+    return null;
+  } catch (error) {
+    console.warn("No se pudo enviar tracking a n8n.", error);
+    return null;
+  }
+}
+
+async function sendLeadToN8N(payload) {
+  return postToWebhook(N8N_LEAD_WEBHOOK_URL, payload);
+}
+
+async function sendFunnelEvent(eventName, extraData = {}) {
+  const session = getLeadSession();
+  const payload = {
+    event: eventName,
+    email: session?.email || "",
+    leadId: session?.leadId || "",
+    ...getTrackingBasePayload(),
+    ...extraData,
+  };
+
+  return postToWebhook(N8N_EVENT_WEBHOOK_URL, payload);
+}
+
+function waitForTracking(promises, timeout = 1200) {
+  return Promise.race([
+    Promise.allSettled(promises),
+    new Promise((resolve) => {
+      setTimeout(resolve, timeout);
+    }),
+  ]);
+}
+
+function trackPageViewByPage() {
+  const page = getPageName();
+  const eventsByPage = {
+    gracias: "visited_thanks",
+    confirmado: "registration_completed",
+    agenda: "visited_agenda",
+  };
+  const eventName = eventsByPage[page];
+
+  if (eventName) {
+    sendFunnelEvent(eventName);
+  }
 }
 
 function updateTimer() {
@@ -63,7 +268,7 @@ function bindForm(form, message) {
     clearMessage();
   });
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const nameIsMissing = !fields.name.value.trim();
@@ -88,6 +293,40 @@ function bindForm(form, message) {
     setFieldError(fields.name, false);
     setFieldError(fields.email, false);
     setPrivacyError(false);
+
+    const now = new Date().toISOString();
+    const utms = getUTMParams();
+    const leadSession = saveLeadSession({
+      leadId: getOrCreateLeadId(),
+      email: emailValue,
+      name: fields.name.value.trim(),
+      utms,
+      updatedAt: now,
+    });
+    const leadPayload = {
+      leadId: leadSession.leadId,
+      name: leadSession.name,
+      email: leadSession.email,
+      privacyAccepted: true,
+      privacyAcceptedAt: now,
+      sourcePage: getPageName(),
+      funnelStage: "registered",
+      createdAt: leadSession.createdAt,
+      updatedAt: now,
+      ...utms,
+      referrer: document.referrer || "",
+      landingUrl: window.location.origin + window.location.pathname,
+      currentUrl: window.location.href,
+      userAgent: navigator.userAgent,
+    };
+
+    await waitForTracking([
+      sendLeadToN8N(leadPayload),
+      sendFunnelEvent("lead_created", {
+        funnelStage: "registered",
+      }),
+    ]);
+
     form.reset();
     window.location.href = "gracias.html";
   });
@@ -161,6 +400,291 @@ function initThanksCountdown() {
   }, 1000);
 }
 
+function handleWhatsappClick() {
+  const whatsappEntryButton = document.querySelector(".whatsapp-cta[href='confirmado.html']");
+
+  if (!whatsappEntryButton) {
+    return;
+  }
+
+  whatsappEntryButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    sendFunnelEvent("clicked_whatsapp");
+    window.location.href = whatsappEntryButton.href;
+  });
+}
+
+function handleAgendaFormSubmit() {
+  const agendaForm = document.querySelector("#agendaForm");
+
+  if (!agendaForm) {
+    return;
+  }
+
+  const message = document.querySelector("#agendaFormMessage");
+  const fields = {
+    name: agendaForm.querySelector('[name="name"]'),
+    email: agendaForm.querySelector('[name="email"]'),
+    classSeen: agendaForm.querySelectorAll('[name="class_seen"]'),
+    mainGoal: agendaForm.querySelector('[name="main_goal"]'),
+    whyProgram: agendaForm.querySelector('[name="why_program"]'),
+    whyNow: agendaForm.querySelector('[name="why_now"]'),
+    investment: agendaForm.querySelectorAll('[name="investment"]'),
+  };
+  const initialStoredSession = getLeadSession();
+  const initialUrlLeadData = getAgendaUrlLeadData();
+  const agendaLead = getAgendaLeadSession();
+
+  if (fields.name && agendaLead.session?.name) {
+    fields.name.value = agendaLead.session.name;
+  }
+
+  if (fields.email && agendaLead.session?.email) {
+    fields.email.value = agendaLead.session.email;
+  }
+
+  function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+  }
+
+  function setFieldError(field, hasError) {
+    if (!field) {
+      return;
+    }
+
+    field.classList.toggle("is-error", hasError);
+    field.setAttribute("aria-invalid", String(hasError));
+  }
+
+  function setOptionGroupError(options, hasError) {
+    options.forEach((option) => {
+      option.closest("label")?.classList.toggle("is-error", hasError);
+      option.setAttribute("aria-invalid", String(hasError));
+    });
+  }
+
+  function setMessage(text, isSuccess = false) {
+    if (!message) {
+      return;
+    }
+
+    message.textContent = text;
+    message.classList.toggle("is-success", isSuccess);
+  }
+
+  agendaForm.addEventListener("input", () => {
+    setMessage("");
+  });
+
+  agendaForm.addEventListener("change", () => {
+    setMessage("");
+  });
+
+  agendaForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(agendaForm);
+    const name = String(formData.get("name") || "").trim();
+    const email = String(formData.get("email") || "").trim();
+    const agendaAnswers = {
+      classSeen: formData.get("class_seen") || "",
+      mainGoal: String(formData.get("main_goal") || "").trim(),
+      whyProgram: String(formData.get("why_program") || "").trim(),
+      whyNow: String(formData.get("why_now") || "").trim(),
+      investmentReadiness: formData.get("investment") || "",
+    };
+    const nameIsMissing = !name;
+    const emailIsMissing = !email;
+    const emailIsInvalid = Boolean(email) && !isValidEmail(email);
+    const classSeenIsMissing = !agendaAnswers.classSeen;
+    const mainGoalIsMissing = !agendaAnswers.mainGoal;
+    const whyProgramIsMissing = !agendaAnswers.whyProgram;
+    const whyNowIsMissing = !agendaAnswers.whyNow;
+    const investmentIsMissing = !agendaAnswers.investmentReadiness;
+    const isValid =
+      !nameIsMissing &&
+      !emailIsMissing &&
+      !emailIsInvalid &&
+      !classSeenIsMissing &&
+      !mainGoalIsMissing &&
+      !whyProgramIsMissing &&
+      !whyNowIsMissing &&
+      !investmentIsMissing;
+
+    setFieldError(fields.name, nameIsMissing);
+    setFieldError(fields.email, emailIsMissing || emailIsInvalid);
+    setFieldError(fields.mainGoal, mainGoalIsMissing);
+    setFieldError(fields.whyProgram, whyProgramIsMissing);
+    setFieldError(fields.whyNow, whyNowIsMissing);
+    setOptionGroupError(fields.classSeen, classSeenIsMissing);
+    setOptionGroupError(fields.investment, investmentIsMissing);
+
+    if (!isValid) {
+      setMessage(
+        emailIsInvalid
+          ? "Revisa el formato del email antes de continuar."
+          : "Completa todos los campos para desbloquear la agenda."
+      );
+      return;
+    }
+
+    const previousSession = getLeadSession();
+    const hadLeadBeforeSubmit = Boolean(
+      initialStoredSession?.leadId || initialUrlLeadData.leadId
+    );
+    const now = new Date().toISOString();
+    const leadSession = saveLeadSession({
+      leadId: previousSession?.leadId || initialUrlLeadData.leadId || createLeadId(),
+      name,
+      email,
+      updatedAt: now,
+    });
+
+    agendaForm.querySelector(".agenda-submit")?.setAttribute("disabled", "true");
+    setMessage("Enviando solicitud...");
+
+    if (!hadLeadBeforeSubmit) {
+      await sendLeadToN8N({
+        event: "lead_created",
+        event_name: "lead_created",
+        name: leadSession.name,
+        email: leadSession.email,
+        leadId: leadSession.leadId,
+        sourcePage: "agenda",
+        funnelStage: "agenda_form_started",
+        funnel_stage: "agenda_form_started",
+        createdAt: leadSession.createdAt,
+        updatedAt: now,
+        ...leadSession.utms,
+        referrer: document.referrer || "",
+        landingUrl: window.location.origin + window.location.pathname,
+        currentUrl: window.location.href,
+        userAgent: navigator.userAgent,
+      });
+    }
+
+    await sendFunnelEvent("agenda_form_submitted", {
+      event_name: "agenda_form_submitted",
+      email: leadSession.email,
+      leadId: leadSession.leadId,
+      name: leadSession.name,
+      timestamp: now,
+      page: "agenda",
+      source: "post_masterclass",
+      currentUrl: window.location.href,
+      agendaAnswers,
+      funnelStage: "agenda_form_submitted",
+      funnel_stage: "agenda_form_submitted",
+    });
+
+    setMessage("Solicitud enviada. Ya puedes elegir horario.", true);
+    unlockCalendly(leadSession);
+    document.querySelector("#calendly")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  });
+}
+
+function unlockCalendly(session) {
+  if (getPageName() !== "agenda") {
+    return;
+  }
+
+  const calendlyWrapper = document.querySelector("#calendly");
+  const agendaLock = document.querySelector("#agendaLock");
+  const parentElement = document.getElementById("calendlyEmbed");
+
+  if (!parentElement) {
+    return;
+  }
+
+  function initWhenReady(attempt = 0) {
+    if (parentElement.dataset.calendlyInitialized === "true") {
+      return;
+    }
+
+    if (!window.Calendly?.initInlineWidget) {
+      if (attempt >= 50) {
+        console.warn("No se pudo inicializar el embed de Calendly.");
+        return;
+      }
+
+      setTimeout(() => initWhenReady(attempt + 1), 100);
+      return;
+    }
+
+    parentElement.dataset.calendlyInitialized = "true";
+    calendlyWrapper?.classList.remove("is-locked");
+    calendlyWrapper?.classList.add("is-unlocked");
+    agendaLock?.setAttribute("hidden", "true");
+    window.Calendly.initInlineWidget({
+      url: CALENDLY_URL,
+      parentElement,
+      prefill: {
+        name: session?.name || "",
+        email: session?.email || "",
+      },
+      utm: {
+        utmSource: session?.utms?.utm_source || "",
+        utmMedium: session?.utms?.utm_medium || "",
+        utmCampaign: session?.utms?.utm_campaign || "",
+        utmContent: session?.leadId || "",
+      },
+    });
+  }
+
+  initWhenReady();
+}
+
+function initCalendlyEmbed() {
+  if (getPageName() !== "agenda") {
+    return;
+  }
+
+  getAgendaLeadSession();
+}
+
+function handleCalendlyBookingEvent() {
+  if (getPageName() !== "agenda") {
+    return;
+  }
+
+  window.addEventListener("message", (event) => {
+    const isCalendlyEvent = event.origin === "https://calendly.com" && event.data?.event;
+
+    if (!isCalendlyEvent || event.data.event !== "calendly.event_scheduled") {
+      return;
+    }
+
+    const session = getAgendaLeadSession().session;
+    const calendlyPayload = event.data.payload || {};
+    const payload = {
+      event: "calendly_booked",
+      event_name: "calendly_booked",
+      email: session?.email || "",
+      leadId: session?.leadId || "",
+      name: session?.name || "",
+      timestamp: new Date().toISOString(),
+      page: "agenda",
+      currentUrl: window.location.href,
+      source: "post_masterclass",
+      funnelStage: "calendly_booked",
+      funnel_stage: "calendly_booked",
+      calendlyPayload,
+      calendlyEventUri: calendlyPayload?.event?.uri || "",
+      calendlyInviteeUri: calendlyPayload?.invitee?.uri || "",
+    };
+
+    if (!payload.email && !payload.leadId) {
+      payload.trackingWarning = "missing_local_lead_session";
+    }
+
+    console.log("Calendly scheduled event detected", payload);
+    postToWebhook(N8N_EVENT_WEBHOOK_URL, payload);
+  });
+}
+
 if (daysEl && hoursEl && minutesEl) {
   updateTimer();
   setInterval(updateTimer, 60000);
@@ -179,3 +703,8 @@ if (footerForm) {
 
 initScrollReveal();
 initThanksCountdown();
+handleWhatsappClick();
+handleAgendaFormSubmit();
+initCalendlyEmbed();
+trackPageViewByPage();
+handleCalendlyBookingEvent();
