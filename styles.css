@@ -77,11 +77,54 @@ a {
 }
 
 .status-dot {
+  position: relative;
+  flex: 0 0 auto;
   width: 12px;
   height: 12px;
   border-radius: 999px;
-  background: var(--accent);
-  box-shadow: 0 0 0 5px rgba(122, 30, 42, 0.14);
+  background: #a6404a;
+  box-shadow:
+    0 0 0 4px rgba(122, 30, 42, 0.18),
+    0 0 14px rgba(166, 64, 74, 0.68);
+  animation: liveDotPulse 1.55s ease-in-out infinite;
+}
+
+.status-dot::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: inherit;
+  border: 1px solid rgba(166, 64, 74, 0.5);
+  animation: liveDotRing 1.55s ease-out infinite;
+}
+
+@keyframes liveDotPulse {
+  0%,
+  100% {
+    transform: scale(0.92);
+    box-shadow:
+      0 0 0 4px rgba(122, 30, 42, 0.14),
+      0 0 10px rgba(166, 64, 74, 0.5);
+  }
+
+  50% {
+    transform: scale(1.08);
+    box-shadow:
+      0 0 0 5px rgba(122, 30, 42, 0.22),
+      0 0 18px rgba(166, 64, 74, 0.9);
+  }
+}
+
+@keyframes liveDotRing {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.62);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.55);
+  }
 }
 
 .timer {
@@ -208,6 +251,10 @@ a {
 }
 
 .eyebrow--sentence {
+  text-transform: none;
+}
+
+p.eyebrow.eyebrow--sentence {
   text-transform: none;
 }
 

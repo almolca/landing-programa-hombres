@@ -5,6 +5,15 @@ const LEAD_SESSION_KEY = "arleyaLeadSession";
 const CALENDLY_URL = "https://calendly.com/arleya-info/30min";
 const targetDate = Date.now() + 15 * 86400000;
 
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+
+if (!window.location.hash) {
+  window.scrollTo(0, 0);
+  window.addEventListener("load", () => window.scrollTo(0, 0), { once: true });
+}
+
 const daysEl = document.querySelector("#days");
 const hoursEl = document.querySelector("#hours");
 const minutesEl = document.querySelector("#minutes");
@@ -231,6 +240,7 @@ function updateTimer() {
 function initMentorStatsCounter() {
   const statsContainer = document.querySelector(".mentor-stats");
   const statValues = statsContainer?.querySelectorAll("strong") || [];
+  let hasAnimated = false;
 
   if (!statValues.length) {
     return;
@@ -289,6 +299,29 @@ function initMentorStatsCounter() {
     return;
   }
 
+  function runCountersOnce() {
+    if (hasAnimated) {
+      return;
+    }
+
+    hasAnimated = true;
+    statValues.forEach(animateValue);
+  }
+
+  function isStatsInViewport() {
+    const rect = statsContainer.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    return rect.top < viewportHeight * 0.9 && rect.bottom > viewportHeight * 0.08;
+  }
+
+  function checkStatsVisibility() {
+    if (isStatsInViewport()) {
+      runCountersOnce();
+      window.removeEventListener("scroll", checkStatsVisibility);
+      window.removeEventListener("resize", checkStatsVisibility);
+    }
+  }
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -296,14 +329,22 @@ function initMentorStatsCounter() {
           return;
         }
 
-        statValues.forEach(animateValue);
+        runCountersOnce();
         observer.disconnect();
+        window.removeEventListener("scroll", checkStatsVisibility);
+        window.removeEventListener("resize", checkStatsVisibility);
       });
     },
-    { threshold: 0.35 }
+    {
+      rootMargin: "0px 0px -10% 0px",
+      threshold: 0.08,
+    }
   );
 
   observer.observe(statsContainer);
+  window.addEventListener("scroll", checkStatsVisibility, { passive: true });
+  window.addEventListener("resize", checkStatsVisibility);
+  checkStatsVisibility();
 }
 
 function bindForm(form, message) {
