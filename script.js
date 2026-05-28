@@ -3,7 +3,7 @@ const N8N_LEAD_WEBHOOK_URL = "https://automation.susanai.net/webhook/lead-create
 const N8N_EVENT_WEBHOOK_URL = "https://automation.susanai.net/webhook/funnel-events";
 const LEAD_SESSION_KEY = "arleyaLeadSession";
 const CALENDLY_URL = "https://calendly.com/arleya-info/30min";
-const targetDate = Date.now() + 15 * 86400000;
+const MASTERCLASS_DATE = "2026-06-13T20:00:00+02:00";
 
 if ("scrollRestoration" in history) {
   history.scrollRestoration = "manual";
@@ -223,7 +223,7 @@ function trackPageViewByPage() {
 }
 
 function updateTimer() {
-  const remaining = Math.max(0, targetDate - Date.now());
+  const remaining = Math.max(0, new Date(MASTERCLASS_DATE).getTime() - Date.now());
   const days = Math.floor(remaining / 86400000);
   const hours = Math.floor((remaining % 86400000) / 3600000);
   const minutes = Math.floor((remaining % 3600000) / 60000);
@@ -233,6 +233,24 @@ function updateTimer() {
   hoursEl.textContent = pad(hours);
   minutesEl.textContent = pad(minutes);
   secondsEl.textContent = pad(seconds);
+
+  if (remaining === 0) {
+    const timer = daysEl.closest(".timer");
+
+    if (timer) {
+      timer.setAttribute("aria-label", "EMPEZAMOS");
+    }
+
+    [daysEl, hoursEl, minutesEl, secondsEl].forEach((element) => {
+      element.textContent = "00";
+    });
+
+    const secondsLabel = secondsEl.nextElementSibling;
+
+    if (secondsLabel) {
+      secondsLabel.textContent = "EMPEZAMOS";
+    }
+  }
 }
 
 function initMentorStatsCounter() {
