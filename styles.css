@@ -1310,21 +1310,26 @@ button:hover {
 
   .hero__visual {
     display: block;
-    min-height: 300px;
-    max-width: 360px;
-    margin-top: 16px;
+    min-height: 340px;
+    max-width: 390px;
+    margin-top: 8px;
   }
 
   .hero__visual--doctor {
-    min-height: 300px;
+    min-height: 340px;
   }
 
   .hero-doctor {
-    width: min(340px, 82vw);
+    width: min(390px, 96vw);
   }
 
   .hero-doctor img {
-    max-height: 330px;
+    width: 100%;
+    max-width: none;
+    max-height: 370px;
+    object-fit: contain;
+    object-position: bottom center;
+    transform: translateY(24px) scale(1.1);
   }
 
   .number-card,
