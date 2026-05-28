@@ -281,7 +281,8 @@ h1 span {
 
 .hero h1 {
   max-width: 560px;
-  font-size: clamp(1.5rem, 2.55vw, 2.35rem);
+  margin-bottom: 8px;
+  font-size: clamp(1.38rem, 2.25vw, 2.08rem);
   line-height: 0.98;
 }
 
@@ -1273,7 +1274,8 @@ button:hover {
 
   .hero h1 {
     max-width: 100%;
-    font-size: clamp(1.55rem, 7.65vw, 2.25rem);
+    margin-bottom: 6px;
+    font-size: clamp(1.38rem, 6.75vw, 1.98rem);
     line-height: 0.96;
   }
 
