@@ -1805,15 +1805,31 @@ button:hover {
 .thanks-footer {
   width: min(1180px, calc(100% - 32px));
   display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
   margin: 0 auto;
   padding: 28px 0;
   border-top: 1px solid rgba(216, 203, 190, 0.72);
   color: var(--muted);
   font-size: 0.82rem;
   font-weight: 700;
+}
+
+.thanks-footer__disclaimer {
+  font-size: 0.7rem;
+  opacity: 0.55;
+  line-height: 1.4;
+  max-width: 600px;
+  margin: 0;
+}
+
+.thanks-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 20px;
 }
 
 .thanks-footer a {
